@@ -12,9 +12,12 @@
  
 
        PROCEDURE DIVISION.
+       MAIN-PROCEDUE.
          *> print welcome 
          DISPLAY 'COVID-2020 Containment Unit'.
          DISPLAY 'Danger Biohazard'.
+
+       PFU-PROCEDURE.
          DISPLAY 'Relationship between TCID(50) and PFU: 'TCID50RELPFU.
        *> end program
        STOP RUN.
