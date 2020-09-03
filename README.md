@@ -62,4 +62,18 @@ The programming guide can be found here in PDF format.
 
 
 
+## Compile and Run
+
+To compile the code run:
+
+```
+cobc -x -o containment_unit containment_unit.cbl
+```
+
+To run the CTF challenge execute:
+
+```
+./containment_unit
+```
+
 
