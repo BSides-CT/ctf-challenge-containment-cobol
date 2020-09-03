@@ -1,4 +1,5 @@
-# ctf-challenge-containment-cobol
+# Capture The Flag COBOL Challenge: Release COVID-2020 
+
 BSides 2020 COBOL challenge - "Release COVID-2020 from containment"
 
 ## Introduction
@@ -30,4 +31,27 @@ use brew to install it
 brew install gmp
 
 ```
+
+### MacOSX help
+
+If you see the error:
+
+```
+configure: error: Unable to extract Berkeley DB version information from db.h
+```
+
+When installing GNUCobol make sure you have installed Berkeley DB from brew:
+
+```
+brew install berkeley-db4
+```
+
+Then run the brew link command:
+
+```
+brew link --force berkeley-db4
+```
+
+
+
 
