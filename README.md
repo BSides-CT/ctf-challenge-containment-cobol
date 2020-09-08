@@ -2,6 +2,9 @@
 
 BSides 2020 COBOL challenge - "Release COVID-2020 from containment"
 
+![Containment Unit](COBOL.png "Cobol containment Unit")
+
+
 ## Introduction
 
 The following is a COBOL based CTF challenge. Post-BSIDES CT 2020 the source code will be released under an MIT license
