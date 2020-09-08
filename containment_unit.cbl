@@ -58,6 +58,12 @@
          01 STATUSRESPONSE.
             05 RESPONSE-IN-STATUS PIC X VALUE "X". 
 
+         *> Containment Unit Screen
+         01 CONTAINMENTVALUES.
+            05 CONTAINMENT-UNIT PIC X VALUE "C".
+         01 CONTAINMENTRESPONSE.
+            05 RESPONSE-IN-CONTAINMENT PIC X VALUE "X".
+ 
          SCREEN SECTION.
 
          01 INTRO-SCREEN.
@@ -121,7 +127,7 @@
                          BLANK SCREEN           LINE 1 COL 35.
          05  VALUE "(S)ETTINGS - Software settings"          
                                                 LINE 3 COL 10.
-         05  VALUE "S(T)ATUS - Software/containement status" 
+         05  VALUE "S(T)ATUS - Software/containment status" 
                                                 LINE 5 COL 10.
          05  VALUE "CONTAINMENT (U)NIT - access the unit"   
                                                 LINE 7 COL 10.
@@ -135,7 +141,6 @@
          *>  Settings screen for the application 
          *>  Use this screen to change you password
          *>  and update other values
-
          01 SETTINGS-SCREEN.
          05 VALUE "SETTINGS SCREEN"
                         BLANK SCREEN            LINE 1 COL 35.
@@ -160,6 +165,15 @@
          05 VALUE "Press Q to exit: "           LINE 3 COL 10.
          05 RESPONSE-STATUS
                         PIC X          TO RESPONSE-IN-STATUS.
+
+         *> Containment Unit Chamber
+         01 CONTAINMENT-SCREEN.
+         05 VALUE "CONTAINMENT UNIT LIVE VIEW"
+                        BLANK SCREEN            LINE 1 COL 35.
+         05 VALUE "Press Q to exit: "           LINE 3 COL 10.
+         05 RESPONSE-CONTAINMENT
+                        PIC X          TO RESPONSE-IN-CONTAINMENT.
+ 
 
        PROCEDURE DIVISION.
        *> print system welcome message
@@ -204,6 +218,9 @@
                      MOVE "M" TO WS-MENU
             WHEN "T" DISPLAY STATUS-SCREEN
                      ACCEPT  STATUS-SCREEN   
+                     MOVE "M" TO WS-MENU
+            WHEN "U" DISPLAY CONTAINMENT-SCREEN
+                     ACCEPT  CONTAINMENT-SCREEN   
                      MOVE "M" TO WS-MENU
             WHEN other MOVE "M" TO WS-MENU
           END-EVALUATE
