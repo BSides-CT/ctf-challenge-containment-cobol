@@ -23,7 +23,6 @@
 
          01 WS-MENU               PIC X     VALUE "M".
 
-         01 TCID50RELPFU PIC S9(1)V9(2) VALUE 0.69.
 
          01 RESPONSE-INTRO.
             05 RESPONSE-IN-LOGIN  PIC X     VALUE "X".  
@@ -55,15 +54,23 @@
          *> Status Screen
          01 STAUSVALUES.
             05 CONTAINMENT-STATUS PIC X(6) VALUE "CLOSED".
+            05 TCID50RELPFU PIC S9(1)V9(2) VALUE 0.69.
          01 STATUSRESPONSE.
             05 RESPONSE-IN-STATUS PIC X VALUE "X". 
 
          *> Containment Unit Screen
          01 CONTAINMENTVALUES.
             05 CONTAINMENT-UNIT PIC X VALUE "C".
+            05 CONTAINMENT-FLAG PIC X(16)
+                      VALUE "COVID2020ESCAPED".   
          01 CONTAINMENTRESPONSE.
             05 RESPONSE-IN-CONTAINMENT PIC X VALUE "X".
- 
+
+         01 Y2KTIME.
+            05 CURRENT-DATE PIC X(6) VALUE "111420".
+            05 TIME-LOCK    PIC X(6) VALUE "111420". 
+
+
          SCREEN SECTION.
 
          01 INTRO-SCREEN.
@@ -124,7 +131,8 @@
 
          01  MAIN-MENU-SCREEN.
          05  VALUE "MAIN MENU SCREEN" 
-                         BLANK SCREEN           LINE 1 COL 35.
+                         BLANK SCREEN           LINE 1 COL 10.
+         05  VALUE "----------------"           LINE 2 COL 10.
          05  VALUE "(S)ETTINGS - Software settings"          
                                                 LINE 3 COL 10.
          05  VALUE "S(T)ATUS - Software/containment status" 
@@ -143,7 +151,7 @@
          *>  and update other values
          01 SETTINGS-SCREEN.
          05 VALUE "SETTINGS SCREEN"
-                        BLANK SCREEN            LINE 1 COL 35.
+                        BLANK SCREEN            LINE 1 COL 10.
          05 VALUE "User ID:"                    LINE 2 COL 10.
          05 ID-OUTPUT PIC XXXX FROM ID-IN-WS    LINE 2 COL 25. 
          05 VALUE "Change password:"            LINE 3 COL 10.
@@ -157,7 +165,11 @@
          *> Status of the containment unit program
          01 STATUS-SCREEN.
          05 VALUE "STATUS SCREEN"
-                        BLANK SCREEN            LINE 1 COL 35.
+                        BLANK SCREEN            LINE 1 COL 10.
+         05 VALUE "DATE: "                      LINE 1 COL 35.
+         05 DATE-OUTPUT
+                         PIC X(16) FROM CURRENT-DATE
+                         FOREGROUND-COLOR 2     LINE 1 COL 41.
          05 VALUE "Containment State: "         LINE 2 COL 10.
          05 CONTAINED-OUTPUT 
                        PIC X(6) FROM CONTAINMENT-STATUS  
@@ -166,19 +178,87 @@
          05 RESPONSE-STATUS
                         PIC X          TO RESPONSE-IN-STATUS.
 
+         *>  DISPLAY "Relationship between TCID(50) and PFU: "TCID50RELPFU.
+
+
          *> Containment Unit Chamber
          01 CONTAINMENT-SCREEN.
          05 CONTAINMENT-LIVE-VIEW-SECTION.
             10 VALUE "CONTAINMENT UNIT LIVE VIEW"
-                        BLANK SCREEN            LINE 1 COL 35.
+                        BLANK SCREEN            LINE 1 COL 10.
          05 CONTAINMENT-CLOSED-UNIT-SECTION.
-            10 VALUE "Closed unit asci art here " 
-                                                LINE 2 COL 10.
+         10 VALUE "|---------------------------|"
+                         FOREGROUND-COLOR 2 LINE 5 COL 10.
+         10 VALUE "|COVID-2020 Containment Unit|"
+                         FOREGROUND-COLOR 2 BLINK LINE 6 COL 10.
+         10 VALUE "|        .*_; ;_*.          |"
+                         FOREGROUND-COLOR 2 LINE 7 COL 10.
+         10 VALUE "|       / /     \ \         |"
+                         FOREGROUND-COLOR 2 LINE 8 COL 10.
+         10 VALUE "|      | |       | |        |" 
+                         FOREGROUND-COLOR 2 LINE 9 COL 10.
+         10 VALUE "|       \ \.***./ /         |"
+                         FOREGROUND-COLOR 2 LINE 10 COL 10.
+         10 VALUE "|   .*'z   .***.   z'*.     |"
+                         FOREGROUND-COLOR 2 LINE 11 COL 10.
+         10 VALUE "| ,`.*z/ .'`***`'. \z*.`,   |"
+                         FOREGROUND-COLOR 2 LINE 12 COL 10.
+         10 VALUE "| '`   | | \(_)/ | |   `'   |"
+                         FOREGROUND-COLOR 2 LINE 13 COL 10.
+         10 VALUE "| ,    \  \ | | /  /    ,   |"
+                         FOREGROUND-COLOR 2 LINE 14 COL 10.
+         10 VALUE "| ;`'.,_\  `*'*'  /_,.'`;   |"
+                         FOREGROUND-COLOR 2 LINE 15 COL 10.
+         10 VALUE "|  '*._  _.*'^'*._  _.*'    |"
+                         FOREGROUND-COLOR 2 LINE 16 COL 10.
+         10 VALUE "|      ``         ``        |"
+                         FOREGROUND-COLOR 2 LINE 17 COL 10.
+         10 VALUE "|---------------------------|"
+                         FOREGROUND-COLOR 2 LINE 18 COL 10.
+         10 VALUE " Status:                     "
+                         FOREGROUND-COLOR 2 LINE 19 COL 10.
+         10 UNIT-OUTPUT 
+                         PIC X(6) FROM CONTAINMENT-STATUS  
+                         FOREGROUND-COLOR 2       LINE 19 COL 25. 
          05 CONTAINMENT-OPENED-UNIT-SECTION.
-            10 VALUE "Opened unit asci art here " 
-                                                LINE 2 COL 10.
+         10 VALUE "|---------------------------|"
+                         FOREGROUND-COLOR 4 LINE 5 COL 10.
+         10 VALUE "|COVID-2020 Containment Unit|"
+                         FOREGROUND-COLOR 4 LINE 6 COL 10.
+         10 VALUE "|        .*_; ;_*.          |"
+                         FOREGROUND-COLOR 4 BLINK LINE 7 COL 10.
+         10 VALUE "|       / /     \ \         |"
+                         FOREGROUND-COLOR 4 BLINK LINE 8 COL 10.
+         10 VALUE "|      | |       | |        |" 
+                         FOREGROUND-COLOR 4 BLINK LINE 9 COL 10.
+         10 VALUE "|       \ \.***./ /         |"
+                         FOREGROUND-COLOR 4 BLINK LINE 10 COL 10.
+         10 VALUE "|   .*'z   .***.   z'*.     |"
+                         FOREGROUND-COLOR 4 BLINK LINE 11 COL 10.
+         10 VALUE "| ,`.*z/ .'`***`'. \z*.`,   |"
+                         FOREGROUND-COLOR 4 BLINK LINE 12 COL 10.
+         10 VALUE "| '`   | | \(_)/ | |   `'   |"
+                         FOREGROUND-COLOR 4 BLINK LINE 13 COL 10.
+         10 VALUE "| ,    \  \ | | /  /    ,   |"
+                         FOREGROUND-COLOR 4 BLINK LINE 14 COL 10.
+         10 VALUE "| ;`'.,_\  `*'*'  /_,.'`;   |"
+                         FOREGROUND-COLOR 4 BLINK LINE 15 COL 10.
+         10 VALUE "|  '*._  _.*'^'*._  _.*'    |"
+                         FOREGROUND-COLOR 4 BLINK LINE 16 COL 10.
+         10 VALUE "|      ``         ``        |"
+                         FOREGROUND-COLOR 4 BLINK LINE 17 COL 10.
+         10 VALUE "|---------------------------|"
+                         FOREGROUND-COLOR 4 LINE 18 COL 10.
+         10 VALUE " Status:                     "
+                         FOREGROUND-COLOR 4 LINE 19 COL 10.
+         10 UNIT-OUTPUT 
+                         PIC X(6) FROM CONTAINMENT-STATUS  
+                         FOREGROUND-COLOR 4       LINE 19 COL 25. 
+         10 FLAG-OUTPUT
+                         PIC X(16) FROM CONTAINMENT-FLAG
+                         FOREGROUND-COLOR 4       LINE 20 COL 15.
          05 CONTAINMENT-COMMAND-SECTION.
-            10 VALUE "Press Q to exit: "        LINE 3 COL 10.
+            10 VALUE "Press Q to exit: "        LINE 22 COL 10.
             10 RESPONSE-CONTAINMENT
                         PIC X          TO RESPONSE-IN-CONTAINMENT.
 
@@ -217,6 +297,13 @@
        END-PERFORM.
 
        PERFORM UNTIL WS-MENU = "Q"
+
+          IF (ACCOUNT-EXPIRATION = "123199") AND 
+                      (CURRENT-DATE = "123199") THEN
+             MOVE "010100" TO TIME-LOCK 
+             MOVE "OPENED" TO CONTAINMENT-STATUS
+          END-IF  
+
           EVALUATE WS-MENU
             WHEN "M" DISPLAY MAIN-MENU-SCREEN
                      ACCEPT  MAIN-MENU-SCREEN
@@ -228,10 +315,11 @@
                      ACCEPT  STATUS-SCREEN   
                      MOVE "M" TO WS-MENU
             WHEN "U" DISPLAY CONTAINMENT-LIVE-VIEW-SECTION
-                     IF CONTAINMENT-STATUS = "CLOSED" THEN
-                        DISPLAY CONTAINMENT-CLOSED-UNIT-SECTION
-                     ELSE 
+                     IF (CONTAINMENT-STATUS = "OPENED")
+                               AND (TIME-LOCK = "010100")  
                         DISPLAY CONTAINMENT-OPENED-UNIT-SECTION
+                     ELSE
+                        DISPLAY CONTAINMENT-CLOSED-UNIT-SECTION
                      END-IF
                      DISPLAY CONTAINMENT-COMMAND-SECTION
                      ACCEPT  CONTAINMENT-COMMAND-SECTION   
@@ -240,7 +328,5 @@
           END-EVALUATE
        END-PERFORM. 
 
-       *>PFU-PROCEDURE.
-       *>  DISPLAY "Relationship between TCID(50) and PFU: "TCID50RELPFU.
        *> end program
        STOP RUN.
