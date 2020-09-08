@@ -52,8 +52,13 @@
          01 SETTINGSRESPONSE.
             05 RESPONSE-IN-SETTINGS PIC X VALUE "X".
 
-         SCREEN SECTION.
+         *> Status Screen
+         01 STAUSVALUES.
+            05 CONTAINMENT-STATUS PIC X(6) VALUE "CLOSED".
+         01 STATUSRESPONSE.
+            05 RESPONSE-IN-STATUS PIC X VALUE "X". 
 
+         SCREEN SECTION.
 
          01 INTRO-SCREEN.
          05 VALUE "*********************************" 
@@ -126,6 +131,10 @@
                                                 LINE 11 COL 10.
          05  RESPONSE-INPUT                     LINE 11 COL 34
                          PIC X         TO RESPONSE-IN-MENU.  
+         
+         *>  Settings screen for the application 
+         *>  Use this screen to change you password
+         *>  and update other values
 
          01 SETTINGS-SCREEN.
          05 VALUE "SETTINGS SCREEN"
@@ -133,12 +142,24 @@
          05 VALUE "User ID:"                    LINE 2 COL 10.
          05 ID-OUTPUT PIC XXXX FROM ID-IN-WS    LINE 2 COL 25. 
          05 VALUE "Change password:"            LINE 3 COL 10.
-         05 RESPONSE-INPUT
-                        PIC X          TO RESPONSE-IN-SETTINGS.
          05 VALUE "Account expiration:"         LINE 4 COL 10. 
          05 ACC-EXPIRE-OUTPUT 
-            PIC X(6) FROM ACCOUNT-EXPIRATION    LINE 4 COL 30. 
+            PIC X(6) FROM ACCOUNT-EXPIRATION    LINE 4 COL 30.
+         05 VALUE "Press Q to exit: "           LINE 6 COL 10.
+         05 RESPONSE-INPUT
+                        PIC X          TO RESPONSE-IN-SETTINGS.
 
+         *> Status of the containment unit program
+         01 STATUS-SCREEN.
+         05 VALUE "STATUS SCREEN"
+                        BLANK SCREEN            LINE 1 COL 35.
+         05 VALUE "Containment State: "         LINE 2 COL 10.
+         05 CONTAINED-OUTPUT 
+                       PIC X(6) FROM CONTAINMENT-STATUS  
+                       FOREGROUND-COLOR 2       LINE 2 COL 35. 
+         05 VALUE "Press Q to exit: "           LINE 3 COL 10.
+         05 RESPONSE-STATUS
+                        PIC X          TO RESPONSE-IN-STATUS.
 
        PROCEDURE DIVISION.
        *> print system welcome message
@@ -180,6 +201,9 @@
                      MOVE RESPONSE-IN-MENU TO WS-MENU
             WHEN "S" DISPLAY SETTINGS-SCREEN
                      ACCEPT  SETTINGS-SCREEN   
+                     MOVE "M" TO WS-MENU
+            WHEN "T" DISPLAY STATUS-SCREEN
+                     ACCEPT  STATUS-SCREEN   
                      MOVE "M" TO WS-MENU
             WHEN other MOVE "M" TO WS-MENU
           END-EVALUATE
