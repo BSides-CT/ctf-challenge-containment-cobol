@@ -168,12 +168,20 @@
 
          *> Containment Unit Chamber
          01 CONTAINMENT-SCREEN.
-         05 VALUE "CONTAINMENT UNIT LIVE VIEW"
+         05 CONTAINMENT-LIVE-VIEW-SECTION.
+            10 VALUE "CONTAINMENT UNIT LIVE VIEW"
                         BLANK SCREEN            LINE 1 COL 35.
-         05 VALUE "Press Q to exit: "           LINE 3 COL 10.
-         05 RESPONSE-CONTAINMENT
+         05 CONTAINMENT-CLOSED-UNIT-SECTION.
+            10 VALUE "Closed unit asci art here " 
+                                                LINE 2 COL 10.
+         05 CONTAINMENT-OPENED-UNIT-SECTION.
+            10 VALUE "Opened unit asci art here " 
+                                                LINE 2 COL 10.
+         05 CONTAINMENT-COMMAND-SECTION.
+            10 VALUE "Press Q to exit: "        LINE 3 COL 10.
+            10 RESPONSE-CONTAINMENT
                         PIC X          TO RESPONSE-IN-CONTAINMENT.
- 
+
 
        PROCEDURE DIVISION.
        *> print system welcome message
@@ -219,8 +227,14 @@
             WHEN "T" DISPLAY STATUS-SCREEN
                      ACCEPT  STATUS-SCREEN   
                      MOVE "M" TO WS-MENU
-            WHEN "U" DISPLAY CONTAINMENT-SCREEN
-                     ACCEPT  CONTAINMENT-SCREEN   
+            WHEN "U" DISPLAY CONTAINMENT-LIVE-VIEW-SECTION
+                     IF CONTAINMENT-STATUS = "CLOSED" THEN
+                        DISPLAY CONTAINMENT-CLOSED-UNIT-SECTION
+                     ELSE 
+                        DISPLAY CONTAINMENT-OPENED-UNIT-SECTION
+                     END-IF
+                     DISPLAY CONTAINMENT-COMMAND-SECTION
+                     ACCEPT  CONTAINMENT-COMMAND-SECTION   
                      MOVE "M" TO WS-MENU
             WHEN other MOVE "M" TO WS-MENU
           END-EVALUATE
