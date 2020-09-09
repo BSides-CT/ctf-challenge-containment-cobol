@@ -18,11 +18,10 @@
          01 USERS-FILE.
             05 USER-ID         PIC XXXX.
             05 USER-PWD        PIC X(20).
+            05 USER-EXP        PIC X(6).
 
          WORKING-STORAGE SECTION.
-
          01 WS-MENU               PIC X     VALUE "M".
-
 
          01 RESPONSE-INTRO.
             05 RESPONSE-IN-LOGIN  PIC X     VALUE "X".  
@@ -38,8 +37,9 @@
          *> User data read in from file
          01 WS-USER.
             05 WS-USER-ID         PIC XXXX.
-            05 WS-USER-PWD        PIC X(20).  
-         01 WS-EOF             PIC A(1).
+            05 WS-USER-PWD        PIC X(20).
+            05 WS-USER-EXP        PIC X(6).
+         01 WS-EOF                PIC A(1).
 
          *> Menu item selection
          01 MENURESPONSE.
@@ -55,6 +55,7 @@
          01 STAUSVALUES.
             05 CONTAINMENT-STATUS PIC X(6) VALUE "CLOSED".
             05 TCID50RELPFU PIC S9(1)V9(2) VALUE 0.69.
+            05 PSI PIC XXX VALUE "100".
          01 STATUSRESPONSE.
             05 RESPONSE-IN-STATUS PIC X VALUE "X". 
 
@@ -69,7 +70,6 @@
          01 Y2KTIME.
             05 CURRENT-DATE PIC X(6) VALUE "111420".
             05 TIME-LOCK    PIC X(6) VALUE "111420". 
-
 
          SCREEN SECTION.
 
@@ -148,7 +148,9 @@
          
          *>  Settings screen for the application 
          *>  Use this screen to change you password
-         *>  and update other values
+         *>  and update other values.
+         *>  TODO: make account exp green when 12/31/99 
+         *>  white when less than that date, and red greater than 
          01 SETTINGS-SCREEN.
          05 VALUE "SETTINGS SCREEN"
                         BLANK SCREEN            LINE 1 COL 10.
@@ -158,7 +160,10 @@
          05 VALUE "Account expiration:"         LINE 4 COL 10. 
          05 ACC-EXPIRE-OUTPUT 
             PIC X(6) FROM ACCOUNT-EXPIRATION    LINE 4 COL 30.
-         05 VALUE "Press Q to exit: "           LINE 6 COL 10.
+         05 VALUE "SYSTEM SETTINGS"             LINE 6 COL 10.
+         05 VALUE "SET PSI: "                   LINE 7 COL 10.
+         05 VALUE "SET TCID(5) and PFU: "       LINE 8 COL 10.
+         05 VALUE "Press Q to exit: "           LINE 12 COL 10.
          05 RESPONSE-INPUT
                         PIC X          TO RESPONSE-IN-SETTINGS.
 
@@ -174,12 +179,33 @@
          05 CONTAINED-OUTPUT 
                        PIC X(6) FROM CONTAINMENT-STATUS  
                        FOREGROUND-COLOR 2       LINE 2 COL 35. 
-         05 VALUE "Press Q to exit: "           LINE 3 COL 10.
+         05 VALUE "Relationship between TCID(50) and PFU: "
+                                                LINE 3 COL 10.
+         05 TCID-OUTPUT
+                       PIC S9(1)V9(2) FROM TCID50RELPFU
+                       FOREGROUND-COLOR 2       LINE 3 COL 50. 
+         05 VALUE "---------------------"
+                       FOREGROUND-COLOR 6       LINE 5 COL 10.
+         05 VALUE "Unit Details"
+                       FOREGROUND-COLOR 6       LINE 6 COL 10.
+         05 VALUE "---------------------"
+                       FOREGROUND-COLOR 6       LINE 7 COL 10.
+         05 VALUE "Serial Number: XT100"
+                       FOREGROUND-COLOR 6       LINE 8 COL 10.
+         05 VALUE "Fuel Source: Nuclear"
+                       FOREGROUND-COLOR 6       LINE 9 COL 10.
+         05 VALUE "Build Date: 12/12/86"
+                       FOREGROUND-COLOR 6       LINE 10 COL 10.
+         05 VALUE "PSI: "
+                       FOREGROUND-COLOR 6       LINE 11 COL 10.
+         05 PSI-OUTPUT
+                       PIC XXX FROM PSI
+                       FOREGROUND-COLOR 2       LINE 11 COL 35. 
+         05 VALUE "System Status: Good"
+                       FOREGROUND-COLOR 2       LINE 12 COL 10.
+         05 VALUE "Press Q to exit: "           LINE 15 COL 10.
          05 RESPONSE-STATUS
                         PIC X          TO RESPONSE-IN-STATUS.
-
-         *>  DISPLAY "Relationship between TCID(50) and PFU: "TCID50RELPFU.
-
 
          *> Containment Unit Chamber
          01 CONTAINMENT-SCREEN.
@@ -262,7 +288,6 @@
             10 RESPONSE-CONTAINMENT
                         PIC X          TO RESPONSE-IN-CONTAINMENT.
 
-
        PROCEDURE DIVISION.
        *> print system welcome message
 
@@ -273,6 +298,20 @@
              END-READ
           END-PERFORM.
        CLOSE USERS. 
+
+       DECRYPT.
+       *> Decrypt the expiration date 
+       MOVE WS-USER-EXP TO ACCOUNT-EXPIRATION.
+       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'A' BY '0'.
+       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'B' BY '1'.
+       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'C' BY '2'.
+       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'D' BY '3'.
+       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'E' BY '4'.
+       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'F' BY '5'.
+       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'G' BY '6'.
+       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'H' BY '7'.
+       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'I' BY '8'.
+       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'J' BY '9'.
 
        PERFORM UNTIL RESPONSE-IN-LOGIN = "L"
           DISPLAY INTRO-SCREEN
@@ -309,7 +348,7 @@
                      ACCEPT  MAIN-MENU-SCREEN
                      MOVE RESPONSE-IN-MENU TO WS-MENU
             WHEN "S" DISPLAY SETTINGS-SCREEN
-                     ACCEPT  SETTINGS-SCREEN   
+                     ACCEPT  SETTINGS-SCREEN
                      MOVE "M" TO WS-MENU
             WHEN "T" DISPLAY STATUS-SCREEN
                      ACCEPT  STATUS-SCREEN   
