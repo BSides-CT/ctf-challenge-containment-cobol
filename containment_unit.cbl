@@ -73,8 +73,18 @@
 
          *> Date and Time handling for challenege
          01 Y2KTIME.
-            05 CURRENT-DATE PIC X(6) VALUE "111420".
             05 TIME-LOCK    PIC X(6) VALUE "111420". 
+         01 WS-CURRENT-DATE-DATA.
+            05 WS-CURRENT-DATE.              
+               10 WS-CURRENT-YEAR  PIC  9(4).
+               10 WS-CURRENT-MONTH PIC  9(2).
+               10 WS-CURRENT-DAY   PIC  9(2).
+            05 WS-CURRENT-TIME.              
+               10 WS-CURRENT-HOUR  PIC  9(2).
+               10 WS-CURRENT-MIN   PIC  9(2).
+               10 WS-CURRENT-SEC   PIC  9(2).
+               10 WS-CURRENT-MS    PIC  9(2).
+            05 WS-DIFF-FROM-GMT    PIC  S9(04).
 
          SCREEN SECTION.
 
@@ -208,7 +218,7 @@
                         BLANK SCREEN            LINE 1 COL 10.
          05 VALUE "DATE: "                      LINE 1 COL 35.
          05 DATE-OUTPUT
-                         PIC X(16) FROM CURRENT-DATE
+                         FROM WS-CURRENT-DATE
                          FOREGROUND-COLOR 2     LINE 1 COL 41.
          05 VALUE "--------------"              LINE 2 COL 10.
          05 VALUE "Containment State: "         
@@ -390,11 +400,16 @@
 
        *> Handle main menu 
        PERFORM UNTIL WS-MENU = "Q"
-
           IF (ACCOUNT-EXPIRATION = "123199") AND 
-                      (CURRENT-DATE = "123199") THEN
-             MOVE "010100" TO TIME-LOCK 
+                      (WS-CURRENT-DATE = 19991231) THEN
+             MOVE "010100" TO TIME-LOCK
+             MOVE 20000101 TO WS-CURRENT-DATE
              MOVE "OPENED" TO CONTAINMENT-STATUS
+          ELSE IF (WS-CURRENT-DATE = 200001) AND 
+                  (TIME-LOCK = "010100") THEN
+             MOVE 20000101 TO WS-CURRENT-DATE
+          ELSE   
+             MOVE FUNCTION CURRENT-DATE TO WS-CURRENT-DATE-DATA
           END-IF  
 
           EVALUATE WS-MENU
