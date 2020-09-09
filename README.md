@@ -80,3 +80,26 @@ To run the CTF challenge execute:
 ```
 
 
+## How the challenge works
+
+The player must find out how to unlock the containment unit and release COVID-2020.
+COVID-2020 is a bioengineered virus designed to kill of COVID-19. Its engineers traveled
+back to 1986 and wrote the COBOL containment unit. The player once completing the sub tasks
+unlocks the unit, frees the virus and gets the CTF flag.
+
+### Login
+
+The first step is the figure out how to login.
+
+### Change account expiration
+
+Next they need to set the account expiration to 
+12/31/99 by figuring out the substitution cipher
+
+### Set the clock
+
+Finally they need to set the date to 12/31/99.
+This then locks in the Y2K date. Once the clock (which is programmable) 
+ticks over to Y2K the unit opens.
+
+
