@@ -115,18 +115,23 @@
          05  RESPONSE-INPUT                             LINE 19 COL 23
                          PIC X         TO RESPONSE-IN-LOGIN.       
 
-         01  DATA-ENTRY-SCREEN.
-         05  VALUE "DATA ENTRY SCREEN" BLANK SCREEN     LINE 1 COL 35.
-         05  VALUE "ID #"                               LINE 3 COL 10.
-         05  ID-INPUT                                   LINE 3 COL 25
+         01  LOGIN-SCREEN.
+         05  VALUE "LOGIN SCREEN"      BLANK SCREEN     LINE 1 COL 10.
+         05  VALUE "------------"                       LINE 2 COL 10.
+         05  VALUE "User ID:"                           
+                         FOREGROUND-COLOR 6             LINE 4 COL 10.
+         05  ID-INPUT                                   LINE 4 COL 25
                          PIC  X(4)     TO ID-IN-WS.
-         05  VALUE "PASSWORD"                           LINE 5 COL 10.
-         05  NAME-INPUT                                 LINE 5 COL 25
+         05  VALUE "Password:"                          
+                       FOREGROUND-COLOR 6               LINE 6 COL 10.
+         05  PWD-INPUT                                  LINE 6 COL 25
                          PIC X(20)     TO PWD-IN-WS.
-         05  VALUE "C - TO CONTINUE"                    LINE 11 COL 30.
-         05  VALUE "Q - TO QUIT"                        LINE 12 COL 30.
-         05  VALUE "ENTER RESPONSE"                     LINE 14 COL 30.
-         05  RESPONSE-INPUT                             LINE 14 COL 45
+         05  VALUE "C - TO CONTINUE"   
+                         FOREGROUND-COLOR 2             LINE 11 COL 10.
+         05  VALUE "Q - TO QUIT"                        
+                         FOREGROUND-COLOR 4             LINE 12 COL 10. 
+         05  VALUE "ENTER RESPONSE:"                    LINE 14 COL 10.
+         05  RESPONSE-INPUT                             LINE 14 COL 26
                          PIC X         TO RESPONSE-IN-WS.       
 
          01  MAIN-MENU-SCREEN.
@@ -134,14 +139,14 @@
                          BLANK SCREEN           LINE 1 COL 10.
          05  VALUE "----------------"           LINE 2 COL 10.
          05  VALUE "(S)ETTINGS - Software settings"          
-                                                LINE 3 COL 10.
+                       FOREGROUND-COLOR 6       LINE 3 COL 10.
          05  VALUE "S(T)ATUS - Software/containment status" 
-                                                LINE 5 COL 10.
+                       FOREGROUND-COLOR 6       LINE 5 COL 10.
          05  VALUE "CONTAINMENT (U)NIT - access the unit"   
-                                                LINE 7 COL 10.
+                       FOREGROUND-COLOR 6       LINE 7 COL 10.
          05  VALUE "(Q)UIT - exit the program"   
-                                                LINE 9 COL 10.
-         05  VALUE "Please select an option:"                
+                       FOREGROUND-COLOR 6       LINE 9 COL 10.
+         05  VALUE "PLEASE SELECT AN OPTION:"                
                                                 LINE 11 COL 10.
          05  RESPONSE-INPUT                     LINE 11 COL 34
                          PIC X         TO RESPONSE-IN-MENU.  
@@ -154,16 +159,38 @@
          01 SETTINGS-SCREEN.
          05 VALUE "SETTINGS SCREEN"
                         BLANK SCREEN            LINE 1 COL 10.
-         05 VALUE "User ID:"                    LINE 2 COL 10.
-         05 ID-OUTPUT PIC XXXX FROM ID-IN-WS    LINE 2 COL 25. 
-         05 VALUE "Change password:"            LINE 3 COL 10.
-         05 VALUE "Account expiration:"         LINE 4 COL 10. 
+         05 VALUE "----------------"            LINE 2 COL 10.
+         05 VALUE "Use this screen to update settings"
+                       FOREGROUND-COLOR 6       LINE 4 COL 10.           
+         05 VALUE "---------------------"
+                       FOREGROUND-COLOR 6       LINE 6 COL 10.
+         05 VALUE "User Settings"             
+                       FOREGROUND-COLOR 6       LINE 7 COL 10.
+         05 VALUE "---------------------"
+                       FOREGROUND-COLOR 6       LINE 8 COL 10.
+         05 VALUE "User ID:"                    LINE 10 COL 10.
+         05 ID-OUTPUT PIC XXXX FROM ID-IN-WS    LINE 10 COL 25. 
+         05 VALUE "Change password:"            LINE 11 COL 10.
+         05 PWD-CHANGE                          LINE 11 COL 27
+                         PIC X(20)      TO PWD-IN-WS.       
+         05 VALUE "Account expiration:"         LINE 12 COL 10. 
          05 ACC-EXPIRE-OUTPUT 
-            PIC X(6) FROM ACCOUNT-EXPIRATION    LINE 4 COL 30.
-         05 VALUE "SYSTEM SETTINGS"             LINE 6 COL 10.
-         05 VALUE "SET PSI: "                   LINE 7 COL 10.
-         05 VALUE "SET TCID(5) and PFU: "       LINE 8 COL 10.
-         05 VALUE "Press Q to exit: "           LINE 12 COL 10.
+            PIC X(6) FROM ACCOUNT-EXPIRATION    LINE 12 COL 30.
+         05 VALUE "---------------------"
+                       FOREGROUND-COLOR 6       LINE 16 COL 10.
+         05 VALUE "System Settings"             
+                       FOREGROUND-COLOR 6       LINE 17 COL 10.
+         05 VALUE "---------------------"
+                       FOREGROUND-COLOR 6       LINE 18 COL 10.
+         05 VALUE "Set PSI: "                   
+                       FOREGROUND-COLOR 6       LINE 19 COL 10.
+         05 CHANGE-PSI                          LINE 19 COL 26
+                         PIC XXX       TO PSI.       
+         05 VALUE "Set TCID(5) and PFU: "       
+                       FOREGROUND-COLOR 6       LINE 20 COL 10.
+         05 CHANGE-TCIDPFU                      LINE 20 COL 32
+                       PIC S9(1)V9(2)  TO TCID50RELPFU.       
+         05 VALUE "PLEASE SELECT Q TO EXIT:"    LINE 25 COL 10.
          05 RESPONSE-INPUT
                         PIC X          TO RESPONSE-IN-SETTINGS.
 
@@ -175,35 +202,43 @@
          05 DATE-OUTPUT
                          PIC X(16) FROM CURRENT-DATE
                          FOREGROUND-COLOR 2     LINE 1 COL 41.
-         05 VALUE "Containment State: "         LINE 2 COL 10.
+         05 VALUE "--------------"              LINE 2 COL 10.
+         05 VALUE "Containment State: "         
+                       FOREGROUND-COLOR 6       LINE 4 COL 10.
          05 CONTAINED-OUTPUT 
                        PIC X(6) FROM CONTAINMENT-STATUS  
-                       FOREGROUND-COLOR 2       LINE 2 COL 35. 
+                       FOREGROUND-COLOR 2       LINE 4 COL 35. 
+         05 VALUE "---------------------"
+                       FOREGROUND-COLOR 6       LINE 6 COL 10.
+         05 VALUE "Lab Data"                   
+                       FOREGROUND-COLOR 6       LINE 7 COL 10.
+         05 VALUE "---------------------"
+                       FOREGROUND-COLOR 6       LINE 8 COL 10.
          05 VALUE "Relationship between TCID(50) and PFU: "
-                                                LINE 3 COL 10.
+                       FOREGROUND-COLOR 6       LINE 9 COL 10.
          05 TCID-OUTPUT
                        PIC S9(1)V9(2) FROM TCID50RELPFU
-                       FOREGROUND-COLOR 2       LINE 3 COL 50. 
+                       FOREGROUND-COLOR 2       LINE 9 COL 50. 
          05 VALUE "---------------------"
-                       FOREGROUND-COLOR 6       LINE 5 COL 10.
+                       FOREGROUND-COLOR 6       LINE 14 COL 10.
          05 VALUE "Unit Details"
-                       FOREGROUND-COLOR 6       LINE 6 COL 10.
+                       FOREGROUND-COLOR 6       LINE 15 COL 10.
          05 VALUE "---------------------"
-                       FOREGROUND-COLOR 6       LINE 7 COL 10.
+                       FOREGROUND-COLOR 6       LINE 16 COL 10.
          05 VALUE "Serial Number: XT100"
-                       FOREGROUND-COLOR 6       LINE 8 COL 10.
+                       FOREGROUND-COLOR 6       LINE 17 COL 10.
          05 VALUE "Fuel Source: Nuclear"
-                       FOREGROUND-COLOR 6       LINE 9 COL 10.
+                       FOREGROUND-COLOR 6       LINE 18 COL 10.
          05 VALUE "Build Date: 12/12/86"
-                       FOREGROUND-COLOR 6       LINE 10 COL 10.
+                       FOREGROUND-COLOR 6       LINE 19 COL 10.
          05 VALUE "PSI: "
-                       FOREGROUND-COLOR 6       LINE 11 COL 10.
+                       FOREGROUND-COLOR 6       LINE 20 COL 10.
          05 PSI-OUTPUT
                        PIC XXX FROM PSI
-                       FOREGROUND-COLOR 2       LINE 11 COL 35. 
-         05 VALUE "System Status: Good"
-                       FOREGROUND-COLOR 2       LINE 12 COL 10.
-         05 VALUE "Press Q to exit: "           LINE 15 COL 10.
+                       FOREGROUND-COLOR 2       LINE 20 COL 17. 
+         05 VALUE "System Maintainence: Good"
+                       FOREGROUND-COLOR 2 BLINK LINE 23 COL 10.
+         05 VALUE "PRESS Q TO EXIT: "           LINE 25 COL 10.
          05 RESPONSE-STATUS
                         PIC X          TO RESPONSE-IN-STATUS.
 
@@ -212,6 +247,8 @@
          05 CONTAINMENT-LIVE-VIEW-SECTION.
             10 VALUE "CONTAINMENT UNIT LIVE VIEW"
                         BLANK SCREEN            LINE 1 COL 10.
+            10 VALUE "--------------------------"
+                                                LINE 2 COL 10.
          05 CONTAINMENT-CLOSED-UNIT-SECTION.
          10 VALUE "|---------------------------|"
                          FOREGROUND-COLOR 2 LINE 5 COL 10.
@@ -246,7 +283,12 @@
          10 UNIT-OUTPUT 
                          PIC X(6) FROM CONTAINMENT-STATUS  
                          FOREGROUND-COLOR 2       LINE 19 COL 25. 
+
          05 CONTAINMENT-OPENED-UNIT-SECTION.
+         10 VALUE "CONTAINMENT UNIT LIVE VIEW"
+                          BLANK SCREEN            LINE 1 COL 10.
+         10 VALUE "--------------------------"
+                                                  LINE 2 COL 10.
          10 VALUE "|---------------------------|"
                          FOREGROUND-COLOR 4 LINE 5 COL 10.
          10 VALUE "|COVID-2020 Containment Unit|"
@@ -320,8 +362,8 @@
 
        PERFORM UNTIL RESPONSE-IN-WS = "Q" OR (RESPONSE-IN-WS = "C"
                      AND LOGGED-IN = "T")   
-          DISPLAY DATA-ENTRY-SCREEN
-          ACCEPT DATA-ENTRY-SCREEN
+          DISPLAY LOGIN-SCREEN
+          ACCEPT LOGIN-SCREEN
 
           IF RESPONSE-IN-WS = "Q" THEN
              STOP RUN
