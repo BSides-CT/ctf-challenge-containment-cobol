@@ -110,7 +110,7 @@
                          FOREGROUND-COLOR 2 LINE 17 COL 1.
          05 VALUE "     Danger Biohazard            "
                          FOREGROUND-COLOR 4 LINE 18 COL 1.
-         05 VALUE "     Press L to Login:           "
+         05 VALUE "     PRESS L TO LOGIN:           "
                          LINE 19 COL 1.
          05  RESPONSE-INPUT                             LINE 19 COL 23
                          PIC X         TO RESPONSE-IN-LOGIN.       
@@ -326,7 +326,7 @@
                          PIC X(16) FROM CONTAINMENT-FLAG
                          FOREGROUND-COLOR 4       LINE 20 COL 15.
          05 CONTAINMENT-COMMAND-SECTION.
-            10 VALUE "Press Q to exit: "        LINE 22 COL 10.
+            10 VALUE "PRESS Q TO EXIT: "        LINE 22 COL 10.
             10 RESPONSE-CONTAINMENT
                         PIC X          TO RESPONSE-IN-CONTAINMENT.
 
