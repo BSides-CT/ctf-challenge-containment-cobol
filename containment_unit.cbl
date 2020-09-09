@@ -170,15 +170,15 @@
                          PIC X         TO RESPONSE-IN-MENU.  
          
          *>  Settings screen for the application 
-         *>  Use this screen to change you password
-         *>  and update other values.
-         *>  TODO: make account exp green when 12/31/99 
-         *>  white when less than that date, and red greater than 
+         *>  Use this screen to view password
+         *>  and other values.
          01 SETTINGS-SCREEN.
          05 VALUE "SETTINGS SCREEN"
                         BLANK SCREEN            LINE 1 COL 10.
          05 VALUE "----------------"            LINE 2 COL 10.
-         05 VALUE "Use this screen to update settings"
+         05 VALUE "Use this screen to view settings"
+                       FOREGROUND-COLOR 6       LINE 3 COL 10.           
+         05 VALUE "Use the admin tool to update settings"
                        FOREGROUND-COLOR 6       LINE 4 COL 10.           
          05 VALUE "---------------------"
                        FOREGROUND-COLOR 6       LINE 6 COL 10.
@@ -188,26 +188,26 @@
                        FOREGROUND-COLOR 6       LINE 8 COL 10.
          05 VALUE "User ID:"                    LINE 10 COL 10.
          05 ID-OUTPUT PIC XXXX FROM ID-IN-WS    LINE 10 COL 25. 
-         05 VALUE "Change password:"            LINE 11 COL 10.
-         05 PWD-CHANGE                          LINE 11 COL 27
-                         PIC X(20)      TO PWD-IN-WS.       
+         05 VALUE "Password:"                   LINE 11 COL 10.
+         05 PWD-OUT                             
+            PIC X(20) FROM PWD-IN-WS            LINE 11 COL 27.       
          05 VALUE "Account expiration:"         LINE 12 COL 10. 
          05 ACC-EXPIRE-OUTPUT 
-            PIC X(6) FROM ACCOUNT-EXPIRATION    LINE 12 COL 30.
+            PIC X(6)  FROM ACCOUNT-EXPIRATION   LINE 12 COL 30.
          05 VALUE "---------------------"
                        FOREGROUND-COLOR 6       LINE 16 COL 10.
          05 VALUE "System Settings"             
                        FOREGROUND-COLOR 6       LINE 17 COL 10.
          05 VALUE "---------------------"
                        FOREGROUND-COLOR 6       LINE 18 COL 10.
-         05 VALUE "Set PSI: "                   
+         05 VALUE "PSI: "                   
                        FOREGROUND-COLOR 6       LINE 19 COL 10.
-         05 CHANGE-PSI                          LINE 19 COL 26
-                         PIC XXX       TO PSI.       
+         05 PSI-OUT                          
+            PIC XXX    FROM PSI                 LINE 19 COL 26.       
          05 VALUE "Set TCID(5) and PFU: "       
                        FOREGROUND-COLOR 6       LINE 20 COL 10.
-         05 CHANGE-TCIDPFU                      LINE 20 COL 32
-                       PIC S9(1)V9(2)  TO TCID50RELPFU.       
+         05 TCIDPFU-OUT                      
+            PIC S9(1)V9(2)  FROM TCID50RELPFU   LINE 20 COL 32.       
          05 VALUE "PLEASE SELECT Q TO EXIT:"    LINE 25 COL 10.
          05 RESPONSE-INPUT
                         PIC X          TO RESPONSE-IN-SETTINGS.

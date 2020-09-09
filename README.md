@@ -102,4 +102,7 @@ Finally they need to set the date to 12/31/99.
 This then locks in the Y2K date. Once the clock (which is programmable) 
 ticks over to Y2K the unit opens.
 
+To set the clock/date in EC2 use the following guide:
+https://www.msystechnologies.com/blog/how-to-change-the-date-and-time-on-amazons-ec2-instance/
+
 
