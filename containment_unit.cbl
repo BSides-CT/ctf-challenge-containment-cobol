@@ -11,8 +11,9 @@
             ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
-         *> Set variables
-
+         
+         *> Used for handling the file that stores the
+         *> CTF settings
          FILE SECTION.
          FD USERS.
          01 USERS-FILE.
@@ -21,12 +22,15 @@
             05 USER-EXP        PIC X(6).
 
          WORKING-STORAGE SECTION.
+        
+         *> Used for defining Menu item selection
          01 WS-MENU               PIC X     VALUE "M".
 
+         *> CTF introduction screen
          01 RESPONSE-INTRO.
             05 RESPONSE-IN-LOGIN  PIC X     VALUE "X".  
 
-         *> Login credentials when C pressed
+         *> Login credentials when C pressed on Login page
          01 RESPONSEC.
             05 RESPONSE-IN-WS  PIC X        VALUE "C".
             05 LOGGED-IN       PIC X        VALUE "F".
@@ -67,12 +71,14 @@
          01 CONTAINMENTRESPONSE.
             05 RESPONSE-IN-CONTAINMENT PIC X VALUE "X".
 
+         *> Date and Time handling for challenege
          01 Y2KTIME.
             05 CURRENT-DATE PIC X(6) VALUE "111420".
             05 TIME-LOCK    PIC X(6) VALUE "111420". 
 
          SCREEN SECTION.
 
+         *> Introduction screen
          01 INTRO-SCREEN.
          05 VALUE "*********************************" 
                          BLANK SCREEN LINE 1 COL 1. 
@@ -115,6 +121,7 @@
          05  RESPONSE-INPUT                             LINE 19 COL 23
                          PIC X         TO RESPONSE-IN-LOGIN.       
 
+         *> Login Screen
          01  LOGIN-SCREEN.
          05  VALUE "LOGIN SCREEN"      BLANK SCREEN     LINE 1 COL 10.
          05  VALUE "------------"                       LINE 2 COL 10.
@@ -134,6 +141,7 @@
          05  RESPONSE-INPUT                             LINE 14 COL 26
                          PIC X         TO RESPONSE-IN-WS.       
 
+         *> Main Menu Screen
          01  MAIN-MENU-SCREEN.
          05  VALUE "MAIN MENU SCREEN" 
                          BLANK SCREEN           LINE 1 COL 10.
@@ -242,7 +250,7 @@
          05 RESPONSE-STATUS
                         PIC X          TO RESPONSE-IN-STATUS.
 
-         *> Containment Unit Chamber
+         *> Containment Unit Chamber Closed 
          01 CONTAINMENT-SCREEN.
          05 CONTAINMENT-LIVE-VIEW-SECTION.
             10 VALUE "CONTAINMENT UNIT LIVE VIEW"
@@ -284,6 +292,7 @@
                          PIC X(6) FROM CONTAINMENT-STATUS  
                          FOREGROUND-COLOR 2       LINE 19 COL 25. 
 
+         *> Containment Unit Opened
          05 CONTAINMENT-OPENED-UNIT-SECTION.
          10 VALUE "CONTAINMENT UNIT LIVE VIEW"
                           BLANK SCREEN            LINE 1 COL 10.
@@ -331,8 +340,8 @@
                         PIC X          TO RESPONSE-IN-CONTAINMENT.
 
        PROCEDURE DIVISION.
-       *> print system welcome message
-
+       
+       *> Read settings file
        OPEN INPUT USERS.
           PERFORM UNTIL WS-EOF='Y'
              READ USERS INTO WS-USER
@@ -341,8 +350,8 @@
           END-PERFORM.
        CLOSE USERS. 
 
-       DECRYPT.
        *> Decrypt the expiration date 
+       DECRYPT.
        MOVE WS-USER-EXP TO ACCOUNT-EXPIRATION.
        INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'A' BY '0'.
        INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'B' BY '1'.
@@ -355,11 +364,13 @@
        INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'I' BY '8'.
        INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'J' BY '9'.
 
+       *> Render welcome/intro screen 
        PERFORM UNTIL RESPONSE-IN-LOGIN = "L"
           DISPLAY INTRO-SCREEN
           ACCEPT  INTRO-SCREEN 
        END-PERFORM. 
 
+       *> Render and handle response for login screen
        PERFORM UNTIL RESPONSE-IN-WS = "Q" OR (RESPONSE-IN-WS = "C"
                      AND LOGGED-IN = "T")   
           DISPLAY LOGIN-SCREEN
@@ -377,6 +388,7 @@
           END-IF
        END-PERFORM.
 
+       *> Handle main menu 
        PERFORM UNTIL WS-MENU = "Q"
 
           IF (ACCOUNT-EXPIRATION = "123199") AND 
@@ -409,5 +421,5 @@
           END-EVALUATE
        END-PERFORM. 
 
-       *> end program
+       *> End program
        STOP RUN.
