@@ -120,20 +120,25 @@ unlocks the unit, frees the virus and gets the CTF flag.
 
 ### Login
 
-The first step is the figure out how to login.
+The first step is the figure out how to login. There are multiple users in the 
+user.ytxt file, but only one works!
 
 ### Change account expiration
 
 Next they need to set the account expiration to 
-12/31/99 by figuring out the substitution cipher
+12/31/99 by figuring out the substitution cipher.
+The final chars of the correct account contain the encrypted expiration date.
 
 ### Set the clock
 
-Finally they need to set the date to 12/31/99.
-This then locks in the Y2K date. Once the clock (which is programmable) 
-ticks over to Y2K the unit opens.
+Finally they need to set the date to 12/31/99 on the OS.
+This then locks in the Y2K date. Once the account expiration 
+and the system date are aligned and have set the Y2K lock in date,
+the contianment unit date is set to Y2K and the vault opens 
+revealing the key.
 
 To set the clock/date in EC2 use the following guide:
+
 https://www.msystechnologies.com/blog/how-to-change-the-date-and-time-on-amazons-ec2-instance/
 
 
