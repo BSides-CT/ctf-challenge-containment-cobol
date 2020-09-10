@@ -17,14 +17,14 @@ The recommended way of running the source code is to use GNUCobol.
 
 There are several ways of running and developing against this project.
 
-The first is to simple start the development container. This will install GNUCobol and you can edit 
+The first is to simply start the development container. This will install GNUCobol and you can edit 
 directly from inside Debian.
 
 The second is to manually install it on your systems. GNUCobol is available on Mac, Windows and Linux.
 
-If you wish to simply run the challenege use the Dockerfile in the root of the repository.
+If you wish to run the challenge use the Dockerfile in the root of the repository.
 
-This will create a container with Debian running, the demo private key installed, the environment configured as
+This will create a container from the image with Ubuntu running, the demo private key installed, the environment configured as
 a shell and SSH enabled. 
 
 
@@ -34,16 +34,33 @@ Included in this repository is a Dockerfile for building out the project for dev
 
 You can pass in an environment flag `DEV` or `CTF` to build the relevant image.
 
-
 ```
 docker build --tag containmentunit:1.0 . --build-arg ENV=DEV
 ```
 
-To then connect to the container commandline run:
+#### DEV environment 
+
+If you create a DEV environment, to then connect to the container via the commandline run:
 
 ```
 docker run -it containmentunit:1.0
 ```
+
+A copy of the code is located in the container along with a compiled version. However you can git clone your own fork into here too
+and work in it, in the container. 
+
+
+#### CTF environment 
+
+If you pass in the CTF flag, then the image will be built out and a container created in CTF mode.
+
+This simulates the production CTF deployment and includes the following:
+
+1. An test SSH public and private key
+
+2. SSH running on the container
+
+3. The environment set up so you SSH in and the application is running 
 
 
 ### Manual Installation 
@@ -121,7 +138,7 @@ unlocks the unit, frees the virus and gets the CTF flag.
 ### Login
 
 The first step is the figure out how to login. There are multiple users in the 
-user.ytxt file, but only one works!
+user.txt file, but only one works!
 
 ### Change account expiration
 
