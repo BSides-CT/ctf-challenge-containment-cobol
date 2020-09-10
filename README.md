@@ -39,6 +39,12 @@ You can pass in an environment flag `DEV` or `CTF` to build the relevant image.
 docker build --tag containmentunit:1.0 . --build-arg ENV=DEV
 ```
 
+To then connect to the container commandline run:
+
+```
+docker run -it containmentunit:1.0
+```
+
 
 ### Manual Installation 
 The binaries for GNUCobol can be downloaded from sourceforge:
@@ -82,7 +88,7 @@ Then run the brew link command:
 brew link --force berkeley-db4
 ```
 
-### Compile and Run
+### Compile and Run (manual or in container)
 
 To compile the code run:
 
