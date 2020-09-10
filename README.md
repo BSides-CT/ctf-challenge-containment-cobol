@@ -13,8 +13,34 @@ for anyone who wants to experiement with it and improve it.
 The recommended way of running the source code is to use GNUCobol.
 
 
-## Obtaining GNUCobol
+## Obtaining GNUCobol and running this project
 
+There are several ways of running and developing against this project.
+
+The first is to simple start the development container. This will install GNUCobol and you can edit 
+directly from inside Debian.
+
+The second is to manually install it on your systems. GNUCobol is available on Mac, Windows and Linux.
+
+If you wish to simply run the challenege use the Dockerfile in the root of the repository.
+
+This will create a container with Debian running, the demo private key installed, the environment configured as
+a shell and SSH enabled. 
+
+
+### Docker (for development and the challenge)
+
+Included in this repository is a Dockerfile for building out the project for development and running the challenge.
+
+You can pass in an environment flag `DEV` or `CTF` to build the relevant image.
+
+
+```
+docker build --tag containmentunit:1.0 . --build-arg ENV=DEV
+```
+
+
+### Manual Installation 
 The binaries for GNUCobol can be downloaded from sourceforge:
 
 https://sourceforge.net/projects/gnucobol/files/latest/download
@@ -27,6 +53,9 @@ In short though the quickest way to install this is:
 ./configure && make && make install
 ```
 
+
+#### MacOSX help
+
 You may need to add missing libraries, for example on MacOSX if `gmp` is missing 
 use brew to install it
 
@@ -34,8 +63,6 @@ use brew to install it
 brew install gmp
 
 ```
-
-### MacOSX help
 
 If you see the error:
 
@@ -55,17 +82,7 @@ Then run the brew link command:
 brew link --force berkeley-db4
 ```
 
-## Programming Guide
-
-If you ae interested in writing code in COBOL using GNUCobol then check out the following site:
-
-https://gnucobol.sourceforge.io/
-
-The programming guide can be found here in PDF format.
-
-
-
-## Compile and Run
+### Compile and Run
 
 To compile the code run:
 
@@ -78,6 +95,14 @@ To run the CTF challenge execute:
 ```
 ./containment_unit
 ```
+
+## Programming Guide
+
+If you ae interested in writing code in COBOL using GNUCobol then check out the following site:
+
+https://gnucobol.sourceforge.io/
+
+The programming guide can be found here in PDF format.
 
 
 ## How the challenge works
