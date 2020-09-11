@@ -130,6 +130,40 @@ https://gnucobol.sourceforge.io/
 The programming guide can be found here in PDF format.
 
 
+## Backstory
+
+In the year 2120 a group of engineers have figued out how to manipulate time. The dystopian world they
+inhabit was all a result of the COVID-19 outbreak. The team decide in order to change their present
+they must manipulate the past. Knowing that changing time can have unintended consequnces, they 
+decide to hide a bio-engineered virus in the past. Once the time is right, some smart 
+hacker (like you!) will figure out how to open the vault.
+
+But how can they disguise the virus containment unit and prevent unwanted intruders opening it
+too early? The team settle upon an idea. Disguise the containment unit as old software from 
+the 1980's. It was known that COBOL had a date problem and many an individual feared that on Y2K when 
+the clock ticked over, systems would crash and meltdown.
+
+The team set off for 1986 and quietly integrated themselves in the world of mainframe pogrammers.
+Few at this time knew that the 6 digit date format would provide to be such a problem. Only
+on the earliest bulletin boards was the subject under discussion.
+
+Having coded the containment unit they palaced COVID-20 in it. However they had a problem,
+what would happen when 1999 ticked over to 2000? Wouldn't the virus escape?
+
+One of the engineers had an idea. He would add a hidden trigger. Only when this trigger was 
+tripped and the date set to December 31st 1999 would the containment unit open.
+
+The team settled on the account expiration date. They set the account to expire 
+beyond 2020, this way when the clock ticked over to 1999, Y2K the unit wouldn't open early.
+Dummy accounts were added to the users file to mask the real account, and the Admin unit was destroyed.
+
+Having coded in the hidden switch, they now had to hope, in 2020 somebody would stumble across
+the containment unit, somebody like you! Seeing it was written in the 1980's and following the other clues left 
+across puzzles such as it being witten in COBOL and the references to 1999, perhaps some 
+skillful hacker would see that the two dates had to align and ithus set the vault to trigger a 
+Y2K meltdown.
+
+
 ## How the challenge works
 
 The player must find out how to unlock the containment unit and release COVID-2020.
