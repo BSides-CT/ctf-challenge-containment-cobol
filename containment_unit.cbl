@@ -31,6 +31,7 @@
             05 RESPONSE-IN-LOGIN  PIC X     VALUE "X".  
 
          *> Login credentials when C pressed on Login page
+         01 LOGIN-MSG          PIC X(15)    VALUE "Please login".
          01 RESPONSEC.
             05 RESPONSE-IN-WS  PIC X        VALUE "C".
             05 LOGGED-IN       PIC X        VALUE "F".
@@ -135,20 +136,22 @@
          01  LOGIN-SCREEN.
          05  VALUE "LOGIN SCREEN"      BLANK SCREEN     LINE 1 COL 10.
          05  VALUE "------------"                       LINE 2 COL 10.
+         05  LOGIN-MESSAGE PIC X(15) 
+                         FROM LOGIN-MSG                 LINE 4 COL 10. 
          05  VALUE "User ID:"                           
-                         FOREGROUND-COLOR 6             LINE 4 COL 10.
-         05  ID-INPUT                                   LINE 4 COL 25
+                         FOREGROUND-COLOR 6             LINE 5 COL 10.
+         05  ID-INPUT                                   LINE 5 COL 25
                          PIC  X(4)     TO ID-IN-WS.
          05  VALUE "Password:"                          
-                       FOREGROUND-COLOR 6               LINE 6 COL 10.
-         05  PWD-INPUT                                  LINE 6 COL 25
+                       FOREGROUND-COLOR 6               LINE 7 COL 10.
+         05  PWD-INPUT                                  LINE 7 COL 25
                          PIC X(20)     TO PWD-IN-WS.
          05  VALUE "C - TO CONTINUE"   
-                         FOREGROUND-COLOR 2             LINE 11 COL 10.
+                         FOREGROUND-COLOR 2             LINE 12 COL 10.
          05  VALUE "Q - TO QUIT"                        
-                         FOREGROUND-COLOR 4             LINE 12 COL 10. 
-         05  VALUE "ENTER RESPONSE:"                    LINE 14 COL 10.
-         05  RESPONSE-INPUT                             LINE 14 COL 26
+                         FOREGROUND-COLOR 4             LINE 13 COL 10. 
+         05  VALUE "ENTER RESPONSE:"                    LINE 15 COL 10.
+         05  RESPONSE-INPUT                             LINE 15 COL 26
                          PIC X         TO RESPONSE-IN-WS.       
 
          *> Main Menu Screen
@@ -394,7 +397,7 @@
                     (PWD-IN-WS = WS-USER-PWD)
               MOVE "T" TO LOGGED-IN
           ELSE 
-             DISPLAY "Login Error"
+             MOVE "Login Incorrect" TO LOGIN-MSG
           END-IF
        END-PERFORM.
 
