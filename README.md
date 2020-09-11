@@ -43,8 +43,10 @@ docker build --tag containmentunit:1.0 . --build-arg ENV=DEV
 If you create a DEV environment, to then connect to the container via the commandline run:
 
 ```
-docker run -it containmentunit:1.0
+docker run --privileged -it containmentunit:1.0
 ```
+
+The `--privileged` will allow you to change the date in the container for testing. 
 
 A copy of the code is located in the container along with a compiled version. However you can git clone your own fork into here too
 and work in it, in the container. 
