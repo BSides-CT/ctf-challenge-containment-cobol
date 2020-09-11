@@ -92,45 +92,68 @@
          *> Introduction screen
          01 INTRO-SCREEN.
          05 VALUE "*********************************" 
-                         BLANK SCREEN LINE 1 COL 1. 
+                         BLANK SCREEN LINE 1 COL 10. 
          05 VALUE "* COVID-2020 Containment Unit   *"
-                         LINE 2 COL 1.
+                         LINE 2 COL 10.
          05 VALUE "* Developed in 1986             *"
-                         LINE 3 COL 1.
+                         LINE 3 COL 10.
          05 VALUE "* By the retro*causal engineers *"
-                         LINE 4 COL 1.
+                         LINE 4 COL 10.
          05 VALUE "*********************************"
-                         LINE 5 COL 1.
+                         LINE 5 COL 10.
          05 VALUE "                                 "
-                         LINE 6 COL 1.
+                         LINE 6 COL 10.
          05 VALUE "        .*_; ;_*.                "
-                         FOREGROUND-COLOR 2 LINE 7 COL 1.
+                         FOREGROUND-COLOR 2 LINE 7 COL 10.
          05 VALUE "       / /     \ \               "
-                         FOREGROUND-COLOR 2 LINE 8 COL 1.
+                         FOREGROUND-COLOR 2 LINE 8 COL 10.
          05 VALUE "      | |       | |              " 
-                         FOREGROUND-COLOR 2 LINE 9 COL 1.
+                         FOREGROUND-COLOR 2 LINE 9 COL 10.
          05 VALUE "       \ \.***./ /               "
-                         FOREGROUND-COLOR 2 LINE 10 COL 1.
+                         FOREGROUND-COLOR 2 LINE 10 COL 10.
          05 VALUE "   .*'z   .***.   z'*.           "
-                         FOREGROUND-COLOR 2 LINE 11 COL 1.
+                         FOREGROUND-COLOR 2 LINE 11 COL 10.
          05 VALUE " ,`.*z/ .'`***`'. \z*.`,         "
-                         FOREGROUND-COLOR 2 LINE 12 COL 1.
+                         FOREGROUND-COLOR 2 LINE 12 COL 10.
          05 VALUE " '`   | | \(_)/ | |   `'         "
-                         FOREGROUND-COLOR 2 LINE 13 COL 1.
+                         FOREGROUND-COLOR 2 LINE 13 COL 10.
          05 VALUE " ,    \  \ | | /  /    ,         "
-                         FOREGROUND-COLOR 2 LINE 14 COL 1.
+                         FOREGROUND-COLOR 2 LINE 14 COL 10.
          05 VALUE " ;`'.,_\  `*'*'  /_,.'`;         "
-                         FOREGROUND-COLOR 2 LINE 15 COL 1.
+                         FOREGROUND-COLOR 2 LINE 15 COL 10.
          05 VALUE "  '*._  _.*'^'*._  _.*'          "
-                         FOREGROUND-COLOR 2 LINE 16 COL 1.
+                         FOREGROUND-COLOR 2 LINE 16 COL 10.
          05 VALUE "      ``         ``              "
-                         FOREGROUND-COLOR 2 LINE 17 COL 1.
+                         FOREGROUND-COLOR 2 LINE 17 COL 10.
          05 VALUE "     Danger Biohazard            "
-                         FOREGROUND-COLOR 4 LINE 18 COL 1.
+                         FOREGROUND-COLOR 4 LINE 18 COL 10.
          05 VALUE "     PRESS L TO LOGIN:           "
-                         LINE 19 COL 1.
-         05  RESPONSE-INPUT                             LINE 19 COL 23
-                         PIC X         TO RESPONSE-IN-LOGIN.       
+                         LINE 19 COL 10.
+         05  RESPONSE-INPUT                             LINE 19 COL 33
+                         PIC X         TO RESPONSE-IN-LOGIN.
+         05 VALUE "Welcome to the BSides CT 2020 CTF   " LINE 21 COL 13. 
+         05 VALUE "Challenge finale. If you completed  " LINE 22 COL 13.
+         05 VALUE "the other CTF challenges you should " LINE 23 COL 13.
+         05 VALUE "have some clues on where to start!  " LINE 24 COL 13.
+         05 VALUE "Background Story                    " LINE 26 COL 13.
+         05 VALUE "----------------                    " LINE 27 COL 13.
+         05 VALUE "Our intrepid time traveling coders  " LINE 29 COL 13.
+         05 VALUE "traveled into the past to constuct  " LINE 30 COL 13.
+         05 VALUE "a virus, that when unleashed will   " LINE 31 COL 13.
+         05 VALUE "stop COVID-19. Your job is to break " LINE 32 COL 13.
+         05 VALUE "into the sytem and release COVID-20 " LINE 33 COL 13.
+         05 VALUE "The admin tool was lost long ago so " LINE 34 COL 13.
+         05 VALUE "your only hope is to use your       " LINE 35 COL 13.
+         05 VALUE "hacking skills. You will need to    " LINE 36 COL 13.
+         05 VALUE "1. Log into the system              " LINE 37 COL 13.
+         05 VALUE "2. Update an important account value" LINE 38 COL 13.
+         05 VALUE "3. Reset the systems clock to a     " LINE 39 COL 13.
+         05 VALUE "   mysterious date in the past      " LINE 40 COL 13.
+         05 VALUE "Once complete you will see the key  " LINE 41 COL 13.
+         05 VALUE "Good Luck!                          " LINE 42 COL 13.
+      
+
+    
 
          *> Login Screen
          01  LOGIN-SCREEN.
