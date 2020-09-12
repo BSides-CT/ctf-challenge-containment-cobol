@@ -72,6 +72,10 @@
          01 CONTAINMENTRESPONSE.
             05 RESPONSE-IN-CONTAINMENT PIC X VALUE "X".
 
+         *> Debug Menu 
+         01 DEBUGRESPONSE.
+            05 RESPONSE-IN-DEBUG   PIC X    VALUE "X".
+
          *> Date and Time handling for challenege
          01 WS-CURRENT-DATE-DATA.
             05 WS-CURRENT-DATE.              
@@ -84,7 +88,6 @@
                10 WS-CURRENT-SEC   PIC  9(2).
                10 WS-CURRENT-MS    PIC  9(2).
             05 WS-DIFF-FROM-GMT    PIC  S9(04).
-
  
          SCREEN SECTION.
 
@@ -172,20 +175,25 @@
 
          *> Main Menu Screen
          01  MAIN-MENU-SCREEN.
-         05  VALUE "MAIN MENU SCREEN" 
+         05  MENU-SECTION.   
+         10  VALUE "MAIN MENU SCREEN" 
                          BLANK SCREEN           LINE 1 COL 10.
-         05  VALUE "----------------"           LINE 2 COL 10.
-         05  VALUE "(S)ETTINGS - Software settings"          
+         10  VALUE "----------------"           LINE 2 COL 10.
+         10  VALUE "(S)ETTINGS - Software settings"          
                        FOREGROUND-COLOR 6       LINE 3 COL 10.
-         05  VALUE "S(T)ATUS - Software/containment status" 
+         10  VALUE "S(T)ATUS - Software/containment status" 
                        FOREGROUND-COLOR 6       LINE 5 COL 10.
-         05  VALUE "CONTAINMENT (U)NIT - access the unit"   
+         10  VALUE "CONTAINMENT (U)NIT - access the unit"   
                        FOREGROUND-COLOR 6       LINE 7 COL 10.
-         05  VALUE "(Q)UIT - exit the program"   
+         10  VALUE "(Q)UIT - exit the program"   
                        FOREGROUND-COLOR 6       LINE 9 COL 10.
-         05  VALUE "PLEASE SELECT AN OPTION:"                
-                                                LINE 11 COL 10.
-         05  RESPONSE-INPUT                     LINE 11 COL 34
+         05  DEBUG-SECTION.
+         10  VALUE "(D)EBUG - developer debug menu"
+                       FOREGROUND-COLOR 4       LINE 11 COL 10.
+         05  OPTION-SECTION.  
+         10  VALUE "PLEASE SELECT AN OPTION:"                
+                                                LINE 13 COL 10.
+         10  RESPONSE-INPUT                     LINE 13 COL 34
                          PIC X         TO RESPONSE-IN-MENU.  
          
          *>  Settings screen for the application 
@@ -196,9 +204,9 @@
                         BLANK SCREEN            LINE 1 COL 10.
          05 VALUE "----------------"            LINE 2 COL 10.
          05 VALUE "Use this screen to view settings"
-                       FOREGROUND-COLOR 6       LINE 3 COL 10.           
+                       FOREGROUND-COLOR 6       LINE 3 COL 10.
          05 VALUE "Use the admin tool to update settings"
-                       FOREGROUND-COLOR 6       LINE 4 COL 10.           
+                       FOREGROUND-COLOR 6       LINE 4 COL 10.
          05 VALUE "---------------------"
                        FOREGROUND-COLOR 6       LINE 6 COL 10.
          05 VALUE "User Settings"             
@@ -278,6 +286,13 @@
          05 VALUE "PRESS Q TO EXIT: "           LINE 25 COL 10.
          05 RESPONSE-STATUS
                         PIC X          TO RESPONSE-IN-STATUS.
+
+         *> Debug Menu
+         01 DEBUG-SCREEN.
+         05 VALUE "DEBUG SCREEN"                
+                        BLANK SCREEN            LINE 1 COL 10.  
+         05 RESPONSE-DEBUG
+                        PIC X          TO RESPONSE-IN-DEBUG.
 
          *> Containment Unit Chamber Closed 
          01 CONTAINMENT-SCREEN.
@@ -445,15 +460,20 @@
           END-IF  
 
           EVALUATE WS-MENU
-            WHEN "M" DISPLAY MAIN-MENU-SCREEN
-                     ACCEPT  MAIN-MENU-SCREEN
+            WHEN "M" DISPLAY MENU-SECTION
+                     IF ACCOUNT-DEBUG = "TRUE" THEN
+                         DISPLAY DEBUG-SECTION
+                     END-IF    
+                     DISPLAY OPTION-SECTION
+                     ACCEPT  OPTION-SECTION
                      MOVE RESPONSE-IN-MENU TO WS-MENU
             WHEN "S" DISPLAY SETTINGS-SCREEN
                      ACCEPT  SETTINGS-SCREEN
                      MOVE "M" TO WS-MENU
             WHEN "D" 
                      IF ACCOUNT-DEBUG = "TRUE" THEN
-                        DISPLAY "DEBUGGING"
+                        DISPLAY DEBUG-SCREEN
+                        ACCEPT  DEBUG-SCREEN  
                      ELSE 
                         MOVE "M" TO WS-MENU
                      END-IF
