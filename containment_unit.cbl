@@ -74,6 +74,7 @@
             05 RESPONSE-IN-CONTAINMENT PIC X VALUE "X".
 
          *> ROT13
+         *> https://rosettacode.org/wiki/Rot-13#COBOL
          01 ROT-13.
             05 NORMAL-LOWER VALUE "abcdefghijklmnopqrstuvwxyz".
             05 NORMAL-UPPER VALUE "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
@@ -383,6 +384,9 @@
 
        PROCEDURE DIVISION.
        
+       *> Call decrypt module
+       *> https://gnucobol.sourceforge.io/historical/open-cobol/Static-COBOL-to-C.html
+       *> https://www.techiedelight.com/des-implementation-c/
        *> Read settings file
        OPEN INPUT USERS.
           PERFORM UNTIL WS-EOF='Y'
