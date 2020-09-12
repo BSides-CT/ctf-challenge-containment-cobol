@@ -38,6 +38,7 @@ You can pass in an environment flag `DEV` or `CTF` to build the relevant image.
 docker build --tag containmentunit:1.0 . --build-arg ENV=DEV
 ```
 
+
 #### DEV environment 
 
 If you create a DEV environment, to then connect to the container via the commandline run:

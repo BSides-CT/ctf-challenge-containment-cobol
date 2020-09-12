@@ -8,6 +8,7 @@ RUN apt-get update -y
 RUN apt-get install wget gcc make -y
 RUN apt-get install libdb-dev libncurses5-dev libgmp-dev autoconf -y
 RUN apt-get install open-cobol -y
+RUN apt-get install xinetd telnetd -y
 
 WORKDIR ~/
 
