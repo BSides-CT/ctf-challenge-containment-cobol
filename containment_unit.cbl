@@ -51,7 +51,6 @@
             05 RESPONSE-IN-MENU PIC X    VALUE "X".
 
          *> Settings screen
-         01 STR-LENGTH PIC XXX VALUE 100.
          01 SETTINGSVALUES.
             05 ACCOUNT-DEBUG PIC X(5) VALUE SPACES.
          01 SETTINGSRESPONSE.
@@ -73,14 +72,6 @@
          01 CONTAINMENTRESPONSE.
             05 RESPONSE-IN-CONTAINMENT PIC X VALUE "X".
 
-         *> ROT13
-         *> https://rosettacode.org/wiki/Rot-13#COBOL
-         01 ROT-13.
-            05 NORMAL-LOWER VALUE "abcdefghijklmnopqrstuvwxyz".
-            05 NORMAL-UPPER VALUE "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
-            05 ROT13-LOWER  VALUE "nopqrstuvwxyzabcdefghijklm".
-            05 ROT13-UPPER  VALUE "NOPQRSTUVWXYZABCDEFGHIJKLM".
-
          *> Date and Time handling for challenege
          01 WS-CURRENT-DATE-DATA.
             05 WS-CURRENT-DATE.              
@@ -94,11 +85,6 @@
                10 WS-CURRENT-MS    PIC  9(2).
             05 WS-DIFF-FROM-GMT    PIC  S9(04).
 
-
-         LINKAGE SECTION.
-         *>01  IN-STR       PIC X(STR-LENGTH).
-         *>01  OUT-STR      PIC X(STR-LENGTH).
-    
  
          SCREEN SECTION.
 
@@ -401,11 +387,34 @@
        DECRYPT.
        MOVE WS-USER-EXP TO ACCOUNT-DEBUG.
        *> Add ROT13 substituion.  
-       *> MOVE IN-STR TO OUT-STR
-       *> INSPECT OUT-STR CONVERTING NORMAL-LOWER TO ROT13-LOWER
-       *> INSPECT OUT-STR CONVERTING NORMAL-UPPER TO ROT13-LOWER 
 
-
+       INSPECT ACCOUNT-DEBUG REPLACING
+           ALL "A" BY "N"
+           ALL "B" BY "O"
+           ALL "C" BY "P"
+           ALL "D" BY "Q"
+           ALL "E" BY "R"
+           ALL "F" BY "S"
+           ALL "G" BY "T"
+           ALL "H" BY "U"
+           ALL "I" BY "V"
+           ALL "J" BY "W"
+           ALL "K" BY "X"
+           ALL "L" BY "Y"
+           ALL "M" BY "Z"
+           ALL "N" BY "A"
+           ALL "O" BY "B"
+           ALL "P" BY "C"
+           ALL "Q" BY "D"
+           ALL "R" BY "E"
+           ALL "S" BY "F"
+           ALL "T" BY "G"
+           ALL "U" BY "H"
+           ALL "V" BY "I"
+           ALL "W" BY "J"
+           ALL "X" BY "K"
+           ALL "Y" BY "L"
+           ALL "Z" BY "M"
 
        *> Render welcome/intro screen 
        PERFORM UNTIL RESPONSE-IN-LOGIN = "L"
