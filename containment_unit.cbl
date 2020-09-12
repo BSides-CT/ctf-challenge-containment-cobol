@@ -18,7 +18,7 @@
          FD USERS.
          01 USERS-FILE.
             05 USER-ID         PIC XXXX.
-            05 USER-PWD        PIC X(20).
+            05 USER-PWD        PIC X(8).
             05 USER-EXP        PIC X(6).
 
          WORKING-STORAGE SECTION.
@@ -37,12 +37,12 @@
             05 LOGGED-IN       PIC X        VALUE "F".
          01 DATA-FROM-SCREEN.
             05 ID-IN-WS        PIC XXXX     VALUE SPACES.  
-            05 PWD-IN-WS       PIC X(20)    VALUE SPACES.  
+            05 PWD-IN-WS       PIC X(8)     VALUE SPACES.  
 
          *> User data read in from file
          01 WS-USER.
             05 WS-USER-ID         PIC XXXX.
-            05 WS-USER-PWD        PIC X(20).
+            05 WS-USER-PWD        PIC X(8).
             05 WS-USER-EXP        PIC X(6).
          01 WS-EOF                PIC A(1).
 
@@ -51,8 +51,9 @@
             05 RESPONSE-IN-MENU PIC X    VALUE "X".
 
          *> Settings screen
+         01 STR-LENGTH PIC XXX VALUE 100.
          01 SETTINGSVALUES.
-            05 ACCOUNT-EXPIRATION PIC X(6) VALUE "123120".
+            05 ACCOUNT-DEBUG PIC X(5) VALUE SPACES.
          01 SETTINGSRESPONSE.
             05 RESPONSE-IN-SETTINGS PIC X VALUE "X".
 
@@ -72,9 +73,14 @@
          01 CONTAINMENTRESPONSE.
             05 RESPONSE-IN-CONTAINMENT PIC X VALUE "X".
 
+         *> ROT13
+         01 ROT-13.
+            05 NORMAL-LOWER VALUE "abcdefghijklmnopqrstuvwxyz".
+            05 NORMAL-UPPER VALUE "ABCDEFGHIJKLMNOPQRSTUVWXYZ".
+            05 ROT13-LOWER  VALUE "nopqrstuvwxyzabcdefghijklm".
+            05 ROT13-UPPER  VALUE "NOPQRSTUVWXYZABCDEFGHIJKLM".
+
          *> Date and Time handling for challenege
-         01 Y2KTIME.
-            05 TIME-LOCK    PIC X(6) VALUE "111420". 
          01 WS-CURRENT-DATE-DATA.
             05 WS-CURRENT-DATE.              
                10 WS-CURRENT-YEAR  PIC  9(4).
@@ -87,6 +93,12 @@
                10 WS-CURRENT-MS    PIC  9(2).
             05 WS-DIFF-FROM-GMT    PIC  S9(04).
 
+
+         LINKAGE SECTION.
+         *>01  IN-STR       PIC X(STR-LENGTH).
+         *>01  OUT-STR      PIC X(STR-LENGTH).
+    
+ 
          SCREEN SECTION.
 
          *> Introduction screen
@@ -152,9 +164,6 @@
          05 VALUE "Once complete you will see the key  " LINE 41 COL 13.
          05 VALUE "Good Luck!                          " LINE 42 COL 13.
       
-
-    
-
          *> Login Screen
          01  LOGIN-SCREEN.
          05  VALUE "LOGIN SCREEN"      BLANK SCREEN     LINE 1 COL 10.
@@ -168,13 +177,10 @@
          05  VALUE "Password:"                          
                        FOREGROUND-COLOR 6               LINE 7 COL 10.
          05  PWD-INPUT                                  LINE 7 COL 25
-                         PIC X(20)     TO PWD-IN-WS.
-         05  VALUE "C - TO CONTINUE"   
+                         PIC X(8)     TO PWD-IN-WS.
+         05  VALUE "ENTER C TO CONTINUE:"   
                          FOREGROUND-COLOR 2             LINE 12 COL 10.
-         05  VALUE "Q - TO QUIT"                        
-                         FOREGROUND-COLOR 4             LINE 13 COL 10. 
-         05  VALUE "ENTER RESPONSE:"                    LINE 15 COL 10.
-         05  RESPONSE-INPUT                             LINE 15 COL 26
+         05  RESPONSE-INPUT                             LINE 12 COL 31
                          PIC X         TO RESPONSE-IN-WS.       
 
          *> Main Menu Screen
@@ -216,10 +222,10 @@
          05 ID-OUTPUT PIC XXXX FROM ID-IN-WS    LINE 10 COL 25. 
          05 VALUE "Password:"                   LINE 11 COL 10.
          05 PWD-OUT                             
-            PIC X(20) FROM PWD-IN-WS            LINE 11 COL 27.       
+            PIC X(8) FROM PWD-IN-WS            LINE 11 COL 27.       
          05 VALUE "Account expiration:"         LINE 12 COL 10. 
          05 ACC-EXPIRE-OUTPUT 
-            PIC X(6)  FROM ACCOUNT-EXPIRATION   LINE 12 COL 30.
+            PIC X(5)  FROM ACCOUNT-DEBUG   LINE 12 COL 30.
          05 VALUE "---------------------"
                        FOREGROUND-COLOR 6       LINE 16 COL 10.
          05 VALUE "System Settings"             
@@ -386,35 +392,28 @@
           END-PERFORM.
        CLOSE USERS. 
 
-       *> Decrypt the expiration date 
+       *> Decrypt the debug flag 
+       *> Uses ROT13
        DECRYPT.
-       MOVE WS-USER-EXP TO ACCOUNT-EXPIRATION.
-       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'A' BY '0'.
-       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'B' BY '1'.
-       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'C' BY '2'.
-       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'D' BY '3'.
-       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'E' BY '4'.
-       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'F' BY '5'.
-       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'G' BY '6'.
-       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'H' BY '7'.
-       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'I' BY '8'.
-       INSPECT ACCOUNT-EXPIRATION REPLACING ALL 'J' BY '9'.
+       MOVE WS-USER-EXP TO ACCOUNT-DEBUG.
+       *> Add ROT13 substituion.  
+       *> MOVE IN-STR TO OUT-STR
+       *> INSPECT OUT-STR CONVERTING NORMAL-LOWER TO ROT13-LOWER
+       *> INSPECT OUT-STR CONVERTING NORMAL-UPPER TO ROT13-LOWER 
+
+
 
        *> Render welcome/intro screen 
        PERFORM UNTIL RESPONSE-IN-LOGIN = "L"
           DISPLAY INTRO-SCREEN
           ACCEPT  INTRO-SCREEN 
-       END-PERFORM. 
+       END-PERFORM
 
        *> Render and handle response for login screen
-       PERFORM UNTIL RESPONSE-IN-WS = "Q" OR (RESPONSE-IN-WS = "C"
-                     AND LOGGED-IN = "T")   
+       PERFORM UNTIL (RESPONSE-IN-WS = "C" AND LOGGED-IN = "T")   
+
           DISPLAY LOGIN-SCREEN
           ACCEPT LOGIN-SCREEN
-
-          IF RESPONSE-IN-WS = "Q" THEN
-             STOP RUN
-          END-IF
 
           IF (ID-IN-WS = WS-USER-ID) AND 
                     (PWD-IN-WS = WS-USER-PWD)
@@ -426,14 +425,8 @@
 
        *> Handle main menu 
        PERFORM UNTIL WS-MENU = "Q"
-          IF (ACCOUNT-EXPIRATION = "123199") AND 
-                      (WS-CURRENT-DATE = 19991231) THEN
-             MOVE "010100" TO TIME-LOCK
-             MOVE 20000101 TO WS-CURRENT-DATE
+          IF (WS-CURRENT-DATE = 20000101) THEN
              MOVE "OPENED" TO CONTAINMENT-STATUS
-          ELSE IF (WS-CURRENT-DATE = 200001) AND 
-                  (TIME-LOCK = "010100") THEN
-             MOVE 20000101 TO WS-CURRENT-DATE
           ELSE   
              MOVE FUNCTION CURRENT-DATE TO WS-CURRENT-DATE-DATA
           END-IF  
@@ -445,12 +438,17 @@
             WHEN "S" DISPLAY SETTINGS-SCREEN
                      ACCEPT  SETTINGS-SCREEN
                      MOVE "M" TO WS-MENU
+            WHEN "D" 
+                     IF ACCOUNT-DEBUG = "TRUE" THEN
+                        DISPLAY "DEBUGGING"
+                     ELSE 
+                        MOVE "M" TO WS-MENU
+                     END-IF
             WHEN "T" DISPLAY STATUS-SCREEN
                      ACCEPT  STATUS-SCREEN   
                      MOVE "M" TO WS-MENU
             WHEN "U" DISPLAY CONTAINMENT-LIVE-VIEW-SECTION
-                     IF (CONTAINMENT-STATUS = "OPENED")
-                               AND (TIME-LOCK = "010100")  
+                     IF (CONTAINMENT-STATUS = "OPENED") THEN
                         DISPLAY CONTAINMENT-OPENED-UNIT-SECTION
                      ELSE
                         DISPLAY CONTAINMENT-CLOSED-UNIT-SECTION
