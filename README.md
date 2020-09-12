@@ -38,6 +38,15 @@ You can pass in an environment flag `DEV` or `CTF` to build the relevant image.
 docker build --tag containmentunit:1.0 . --build-arg ENV=DEV
 ```
 
+Telnet is enabled for the players to connect to the CTF frontend. To access this, grab your container IP:
+
+```
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' container_id
+```
+
+Then telnet in. 
+
+
 #### DEV environment 
 
 If you create a DEV environment, to then connect to the container via the commandline run:
