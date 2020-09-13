@@ -40,11 +40,13 @@
             05 PWD-IN-WS       PIC X(8)     VALUE SPACES.  
 
          *> User data read in from file
-         01 WS-USER.
-            05 WS-USER-ID         PIC XXXX.
-            05 WS-USER-PWD        PIC X(8).
-            05 WS-USER-EXP        PIC X(6).
-         01 WS-EOF                PIC A(1).
+         01 WS-USERS-TABLE.
+            05 WS-USER OCCURS 8 TIMES ASCENDING KEY IS WS-USER-ID
+                                            INDEXED BY I.
+              10 WS-USER-ID         PIC XXXX.
+              10 WS-USER-PWD        PIC X(8).
+              10 WS-USER-EXP        PIC X(6).
+            05 WS-EOF                PIC A(1).
 
          *> Menu item selection
          01 MENURESPONSE.
@@ -391,46 +393,13 @@
        *> https://www.techiedelight.com/des-implementation-c/
        *> Read settings file
        OPEN INPUT USERS.
-          PERFORM UNTIL WS-EOF='Y'
-             READ USERS INTO WS-USER
+          PERFORM VARYING I FROM 1 BY 1 UNTIL WS-EOF='Y'
+             READ USERS INTO WS-USER (I)
                 AT END MOVE 'Y' TO WS-EOF
              END-READ
           END-PERFORM.
        CLOSE USERS. 
 
-       *> Decrypt the debug flag 
-       *> Uses ROT13
-       DECRYPT.
-       MOVE WS-USER-EXP TO ACCOUNT-DEBUG.
-       *> Add ROT13 substituion.  
-
-       INSPECT ACCOUNT-DEBUG REPLACING
-           ALL "A" BY "N"
-           ALL "B" BY "O"
-           ALL "C" BY "P"
-           ALL "D" BY "Q"
-           ALL "E" BY "R"
-           ALL "F" BY "S"
-           ALL "G" BY "T"
-           ALL "H" BY "U"
-           ALL "I" BY "V"
-           ALL "J" BY "W"
-           ALL "K" BY "X"
-           ALL "L" BY "Y"
-           ALL "M" BY "Z"
-           ALL "N" BY "A"
-           ALL "O" BY "B"
-           ALL "P" BY "C"
-           ALL "Q" BY "D"
-           ALL "R" BY "E"
-           ALL "S" BY "F"
-           ALL "T" BY "G"
-           ALL "U" BY "H"
-           ALL "V" BY "I"
-           ALL "W" BY "J"
-           ALL "X" BY "K"
-           ALL "Y" BY "L"
-           ALL "Z" BY "M"
 
        *> Render welcome/intro screen 
        PERFORM UNTIL RESPONSE-IN-LOGIN = "L"
@@ -440,17 +409,48 @@
 
        *> Render and handle response for login screen
        PERFORM UNTIL (RESPONSE-IN-WS = "C" AND LOGGED-IN = "T")   
-
           DISPLAY LOGIN-SCREEN
           ACCEPT LOGIN-SCREEN
 
-          IF (ID-IN-WS = WS-USER-ID) AND 
-                    (PWD-IN-WS = WS-USER-PWD)
-              MOVE "T" TO LOGGED-IN
-          ELSE 
-             MOVE "Login Incorrect" TO LOGIN-MSG
-          END-IF
+          PERFORM VARYING I FROM 1 BY 1 UNTIL I = 8    
+              IF WS-USER-ID(I) = ID-IN-WS AND 
+                 WS-USER-PWD(I) = PWD-IN-WS THEN
+                MOVE "T" TO LOGGED-IN
+                MOVE WS-USER-EXP(I) TO ACCOUNT-DEBUG 
+              END-IF
+              MOVE "Login failed." TO LOGIN-MSG
+          END-PERFORM  
+
        END-PERFORM.
+
+       *> Add ROT13 substituion.  
+       INSPECT ACCOUNT-DEBUG REPLACING
+            ALL "A" BY "N"
+            ALL "B" BY "O"
+            ALL "C" BY "P"
+            ALL "D" BY "Q"
+            ALL "E" BY "R"
+            ALL "F" BY "S"
+            ALL "G" BY "T"
+            ALL "H" BY "U"
+            ALL "I" BY "V"
+            ALL "J" BY "W"
+            ALL "K" BY "X"
+            ALL "L" BY "Y"
+            ALL "M" BY "Z"
+            ALL "N" BY "A"
+            ALL "O" BY "B"
+            ALL "P" BY "C"
+            ALL "Q" BY "D"
+            ALL "R" BY "E"
+            ALL "S" BY "F"
+            ALL "T" BY "G"
+            ALL "U" BY "H"
+            ALL "V" BY "I"
+            ALL "W" BY "J"
+            ALL "X" BY "K"
+            ALL "Y" BY "L"
+            ALL "Z" BY "M"
 
        *> Handle main menu 
        PERFORM UNTIL WS-MENU = "Q"
