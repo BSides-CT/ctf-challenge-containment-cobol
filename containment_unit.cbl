@@ -477,6 +477,7 @@
                      ELSE 
                         MOVE "M" TO WS-MENU
                      END-IF
+                     MOVE "M" TO WS-MENU
             WHEN "T" DISPLAY STATUS-SCREEN
                      ACCEPT  STATUS-SCREEN   
                      MOVE "M" TO WS-MENU
