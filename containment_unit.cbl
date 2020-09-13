@@ -75,6 +75,7 @@
          *> Debug Menu 
          01 DEBUGRESPONSE.
             05 RESPONSE-IN-DEBUG   PIC X    VALUE "X".
+            05 MOD-YEAR            PIC 9(2) VALUE 00.
 
          *> Date and Time handling for challenege
          01 WS-CURRENT-DATE-DATA.
@@ -456,7 +457,11 @@
           IF (WS-CURRENT-DATE = 20000101) THEN
              MOVE "OPENED" TO CONTAINMENT-STATUS
           ELSE   
-             MOVE FUNCTION CURRENT-DATE TO WS-CURRENT-DATE-DATA
+            MOVE FUNCTION CURRENT-DATE TO WS-CURRENT-DATE-DATA
+            MOVE FUNCTION MOD (WS-CURRENT-YEAR 2000) TO MOD-YEAR
+            IF MOD-YEAR > 0 THEN
+               MOVE 1999 TO WS-CURRENT-YEAR
+            END-IF
           END-IF  
 
           EVALUATE WS-MENU
