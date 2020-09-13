@@ -399,7 +399,6 @@
           END-PERFORM.
        CLOSE USERS. 
 
-
        *> Render welcome/intro screen 
        PERFORM UNTIL RESPONSE-IN-LOGIN = "L"
           DISPLAY INTRO-SCREEN
@@ -473,14 +472,13 @@
             WHEN "S" DISPLAY SETTINGS-SCREEN
                      ACCEPT  SETTINGS-SCREEN
                      MOVE "M" TO WS-MENU
-            WHEN "D" 
-                     IF ACCOUNT-DEBUG = "TRUE" THEN
-                        DISPLAY DEBUG-SCREEN
-                        ACCEPT  DEBUG-SCREEN  
+            WHEN "D" IF ACCOUNT-DEBUG = "TRUE" THEN
+                       DISPLAY DEBUG-SCREEN
+                       ACCEPT  DEBUG-SCREEN  
                      ELSE 
                         MOVE "M" TO WS-MENU
                      END-IF
-                      MOVE "M" TO WS-MENU
+                     MOVE "M" TO WS-MENU
             WHEN "T" DISPLAY STATUS-SCREEN
                      ACCEPT  STATUS-SCREEN   
                      MOVE "M" TO WS-MENU
