@@ -41,12 +41,11 @@
 
          *> User data read in from file
          01 WS-USERS-TABLE.
-            05 WS-USER OCCURS 8 TIMES ASCENDING KEY IS WS-USER-ID
-                                            INDEXED BY I.
+            05 WS-USER OCCURS 8 TIMES INDEXED BY I.
               10 WS-USER-ID         PIC XXXX.
               10 WS-USER-PWD        PIC X(8).
               10 WS-USER-EXP        PIC X(6).
-            05 WS-EOF                PIC A(1).
+            05 WS-EOF               PIC A(1).
 
          *> Menu item selection
          01 MENURESPONSE.
@@ -405,23 +404,22 @@
        PERFORM UNTIL RESPONSE-IN-LOGIN = "L"
           DISPLAY INTRO-SCREEN
           ACCEPT  INTRO-SCREEN 
-       END-PERFORM
+       END-PERFORM.
 
        *> Render and handle response for login screen
        PERFORM UNTIL (RESPONSE-IN-WS = "C" AND LOGGED-IN = "T")   
           DISPLAY LOGIN-SCREEN
           ACCEPT LOGIN-SCREEN
 
-          PERFORM VARYING I FROM 1 BY 1 UNTIL I = 8    
-              IF WS-USER-ID(I) = ID-IN-WS AND 
-                 WS-USER-PWD(I) = PWD-IN-WS THEN
-                MOVE "T" TO LOGGED-IN
-                MOVE WS-USER-EXP(I) TO ACCOUNT-DEBUG 
-              END-IF
-              MOVE "Login failed." TO LOGIN-MSG
-          END-PERFORM  
-
-       END-PERFORM.
+           PERFORM TEST AFTER VARYING I FROM 1 BY 1 UNTIL I = 8
+               IF WS-USER-ID(I) = ID-IN-WS 
+                  AND  WS-USER-PWD(I) = PWD-IN-WS THEN
+                 MOVE "T" TO LOGGED-IN
+                 MOVE WS-USER-EXP(I) TO ACCOUNT-DEBUG 
+               END-IF 
+           END-PERFORM
+           MOVE "Login failed." TO LOGIN-MSG
+        END-PERFORM.
 
        *> Add ROT13 substituion.  
        INSPECT ACCOUNT-DEBUG REPLACING
@@ -452,6 +450,7 @@
             ALL "Y" BY "L"
             ALL "Z" BY "M"
 
+       MOVE "TRUE" TO ACCOUNT-DEBUG      
        *> Handle main menu 
        PERFORM UNTIL WS-MENU = "Q"
           IF (WS-CURRENT-DATE = 20000101) THEN
@@ -477,12 +476,13 @@
                      MOVE "M" TO WS-MENU
             WHEN "D" 
                      IF ACCOUNT-DEBUG = "TRUE" THEN
-                        DISPLAY DEBUG-SCREEN
-                        ACCEPT  DEBUG-SCREEN  
+                     DISPLAY WS-USER(6)
+       *>                 DISPLAY DEBUG-SCREEN
+       *>                 ACCEPT  DEBUG-SCREEN  
                      ELSE 
                         MOVE "M" TO WS-MENU
                      END-IF
-                     MOVE "M" TO WS-MENU
+       *>               MOVE "M" TO WS-MENU
             WHEN "T" DISPLAY STATUS-SCREEN
                      ACCEPT  STATUS-SCREEN   
                      MOVE "M" TO WS-MENU
