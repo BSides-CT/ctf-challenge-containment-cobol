@@ -44,7 +44,7 @@
             05 WS-USER OCCURS 8 TIMES INDEXED BY I.
               10 WS-USER-ID         PIC XXXX.
               10 WS-USER-PWD        PIC X(8).
-              10 WS-USER-EXP        PIC X(6).
+              10 WS-USER-DEBUG        PIC X(6).
             05 WS-EOF               PIC A(1).
 
          *> Menu item selection
@@ -415,7 +415,7 @@
                IF WS-USER-ID(I) = ID-IN-WS 
                   AND  WS-USER-PWD(I) = PWD-IN-WS THEN
                  MOVE "T" TO LOGGED-IN
-                 MOVE WS-USER-EXP(I) TO ACCOUNT-DEBUG 
+                 MOVE WS-USER-DEBUG(I) TO ACCOUNT-DEBUG 
                END-IF 
            END-PERFORM
            MOVE "Login failed." TO LOGIN-MSG
@@ -450,7 +450,6 @@
             ALL "Y" BY "L"
             ALL "Z" BY "M"
 
-       MOVE "TRUE" TO ACCOUNT-DEBUG      
        *> Handle main menu 
        PERFORM UNTIL WS-MENU = "Q"
           IF (WS-CURRENT-DATE = 20000101) THEN
@@ -476,13 +475,12 @@
                      MOVE "M" TO WS-MENU
             WHEN "D" 
                      IF ACCOUNT-DEBUG = "TRUE" THEN
-                     DISPLAY WS-USER(6)
-       *>                 DISPLAY DEBUG-SCREEN
-       *>                 ACCEPT  DEBUG-SCREEN  
+                        DISPLAY DEBUG-SCREEN
+                        ACCEPT  DEBUG-SCREEN  
                      ELSE 
                         MOVE "M" TO WS-MENU
                      END-IF
-       *>               MOVE "M" TO WS-MENU
+                      MOVE "M" TO WS-MENU
             WHEN "T" DISPLAY STATUS-SCREEN
                      ACCEPT  STATUS-SCREEN   
                      MOVE "M" TO WS-MENU
