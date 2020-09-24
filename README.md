@@ -144,24 +144,23 @@ too early? The team settle upon an idea. Disguise the containment unit as old so
 the 1980's. It was known that COBOL had a date problem and many an individual feared that on Y2K when 
 the clock ticked over, systems would crash and meltdown.
 
-The team set off for 1986 and quietly integrated themselves in the world of mainframe pogrammers.
+The team set off for 1984 and quietly integrated themselves in the world of mainframe pogrammers.
 Few at this time knew that the 6 digit date format would provide to be such a problem. Only
 on the earliest bulletin boards was the subject under discussion.
 
-Having coded the containment unit they palaced COVID-20 in it. However they had a problem,
+Having coded the containment unit they placed COVID-20 in it. However they had a problem,
 what would happen when 1999 ticked over to 2000? Wouldn't the virus escape?
 
-One of the engineers had an idea. He would add a hidden trigger. Only when this trigger was 
-tripped and the date set to December 31st 1999 would the containment unit open.
-
-The team settled on the account expiration date. They set the account to expire 
-beyond 2020, this way when the clock ticked over to 1999, Y2K the unit wouldn't open early.
-Dummy accounts were added to the users file to mask the real account, and the Admin unit was destroyed.
+One of the engineers had an idea. He would add a hidden debug screen and leave the date stuck before 
+December 31st 1999. Everyday date beyond 1999 would reset to that year.
+ 
+Only when the debug screen was enabled, the date reset code disabled and the date set to Jan 1st 2000 
+or greater would the containment unit open.
 
 Having coded in the hidden switch, they now had to hope, in 2020 somebody would stumble across
 the containment unit, somebody like you! Seeing it was written in the 1980's and following the other clues left 
 across puzzles such as it being witten in COBOL and the references to 1999, perhaps some 
-skillful hacker would see that the two dates had to align and ithus set the vault to trigger a 
+skillful hacker would see that the dates had to be manipulated and thus set the vault to trigger a 
 Y2K meltdown.
 
 
@@ -169,7 +168,7 @@ Y2K meltdown.
 
 The player must find out how to unlock the containment unit and release COVID-2020.
 COVID-2020 is a bioengineered virus designed to kill of COVID-19. Its engineers traveled
-back to 1986 and wrote the COBOL containment unit. The player once completing the sub tasks
+back to 1984 and wrote the COBOL containment unit. The player once completing the sub tasks
 unlocks the unit, frees the virus and gets the CTF flag.
 
 ### Login
