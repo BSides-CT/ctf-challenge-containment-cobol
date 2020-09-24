@@ -292,8 +292,15 @@
          *> Debug Menu
          01 DEBUG-SCREEN.
          05 VALUE "DEBUG SCREEN"                
-                        BLANK SCREEN            LINE 1 COL 10.  
-         05 RESPONSE-DEBUG
+                        BLANK SCREEN            LINE 1 COL 10.
+         05 DISABLE-DATE-SECTION.
+         10 VALUE "Disable date debug (y/n):"   LINE 4 COL 10.
+         05 DEBUG-DATE-SETTING.
+         10 VALUE "Set day:"                    LINE 6 COL 10.
+         10 VALUE "Set month:"                  LINE 7 COL 10.
+         10 VALUE "Set year:"                   LINE 8 COL 10.
+         05 EXIT-SECTION.
+         10 RESPONSE-DEBUG
                         PIC X          TO RESPONSE-IN-DEBUG.
 
          *> Containment Unit Chamber Closed 
