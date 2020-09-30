@@ -79,7 +79,7 @@
             05 DEBUG-SWITCH        PIC X    VALUE "N".
             05 DEBUG-DAY           PIC 9(2) VALUE 01.
             05 DEBUG-MONTH         PIC 9(2) VALUE 01. 
-            05 DEBUG-YEAR          PIC 9(2) VALUE 99.
+            05 DEBUG-YEAR          PIC 9(4) VALUE 1999.
             05 MOD-YEAR            PIC 9(2) VALUE 00.
 
          *> Date and Time handling for challenege
