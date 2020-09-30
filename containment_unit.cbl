@@ -76,6 +76,10 @@
          *> Debug Menu 
          01 DEBUGRESPONSE.
             05 RESPONSE-IN-DEBUG   PIC X    VALUE "X".
+            05 DEBUG-SWITCH        PIC X    VALUE "N".
+            05 DEBUG-DAY           PIC 9(2) VALUE 01.
+            05 DEBUG-MONTH         PIC 9(2) VALUE 01. 
+            05 DEBUG-YEAR          PIC 9(2) VALUE 99.
             05 MOD-YEAR            PIC 9(2) VALUE 00.
 
          *> Date and Time handling for challenege
