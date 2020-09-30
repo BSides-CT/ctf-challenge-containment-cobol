@@ -298,11 +298,19 @@
          05 VALUE "DEBUG SCREEN"                
                         BLANK SCREEN            LINE 1 COL 10.
          05 DISABLE-DATE-SECTION.
-         10 VALUE "Disable date debug (y/n):"   LINE 4 COL 10.
+         10 VALUE "Disable date debug (Y/N):"   LINE 4 COL 10.
+         10 RESPONSE-DEBUG-SWITCH               LINE 4 COL 35
+                        PIC X          TO DEBUG-SWITCH.
          05 DEBUG-DATE-SETTING.
          10 VALUE "Set day:"                    LINE 6 COL 10.
+         10 RESPONSE-DEBUG-DAY                  LINE 6 COL 19
+                        PIC 9(2)       TO DEBUG-DAY.
          10 VALUE "Set month:"                  LINE 7 COL 10.
+         10 RESPONSE-DEBUG-MONTH                LINE 7 COL 11
+                        PIC 9(2)       TO DEBUG-MONTH.
          10 VALUE "Set year:"                   LINE 8 COL 10.
+         10 RESPONSE-DEBUG-YEAR                 LINE 8 COL 20
+                        PIC 9(4)       TO DEBUG-YEAR.
          05 EXIT-SECTION.
          10 RESPONSE-DEBUG
                         PIC X          TO RESPONSE-IN-DEBUG.
