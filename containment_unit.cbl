@@ -224,7 +224,7 @@
          05 VALUE "Password:"                   LINE 11 COL 10.
          05 PWD-OUT                             
             PIC X(8) FROM PWD-IN-WS            LINE 11 COL 27.       
-         05 VALUE "Account expiration:"         LINE 12 COL 10. 
+         05 VALUE "Account debug mode:"        LINE 12 COL 10. 
          05 ACC-EXPIRE-OUTPUT 
             PIC X(5)  FROM ACCOUNT-DEBUG   LINE 12 COL 30.
          05 VALUE "---------------------"
@@ -295,23 +295,25 @@
 
          *> Debug Menu
          01 DEBUG-SCREEN.
-         05 VALUE "DEBUG SCREEN"                
+         05 DEBUG-TITLE-SECTION.
+         10 VALUE "DEBUG SCREEN"                
                         BLANK SCREEN            LINE 1 COL 10.
          05 DISABLE-DATE-SECTION.
          10 VALUE "Disable date debug (Y/N):"   LINE 4 COL 10.
          10 RESPONSE-DEBUG-SWITCH               LINE 4 COL 35
                         PIC X          TO DEBUG-SWITCH.
-         05 DEBUG-DATE-SETTING.
+         05 DEBUG-DATE-SETTING-SECTION.
          10 VALUE "Set day:"                    LINE 6 COL 10.
          10 RESPONSE-DEBUG-DAY                  LINE 6 COL 19
                         PIC 9(2)       TO DEBUG-DAY.
          10 VALUE "Set month:"                  LINE 7 COL 10.
-         10 RESPONSE-DEBUG-MONTH                LINE 7 COL 11
+         10 RESPONSE-DEBUG-MONTH                LINE 7 COL 21
                         PIC 9(2)       TO DEBUG-MONTH.
          10 VALUE "Set year:"                   LINE 8 COL 10.
          10 RESPONSE-DEBUG-YEAR                 LINE 8 COL 20
                         PIC 9(4)       TO DEBUG-YEAR.
-         05 EXIT-SECTION.
+         05 DEBUG-EXIT-SECTION.
+         10 VALUE "PRESS Q TO EXIT: "           LINE 25 COL 10.
          10 RESPONSE-DEBUG
                         PIC X          TO RESPONSE-IN-DEBUG.
 
@@ -491,13 +493,25 @@
             WHEN "S" DISPLAY SETTINGS-SCREEN
                      ACCEPT  SETTINGS-SCREEN
                      MOVE "M" TO WS-MENU
-            WHEN "D" IF ACCOUNT-DEBUG = "TRUE" THEN
-                       DISPLAY DEBUG-SCREEN
-                       ACCEPT  DEBUG-SCREEN  
+            WHEN "D" IF (ACCOUNT-DEBUG = "TRUE") THEN
+                       DISPLAY DEBUG-TITLE-SECTION
+                       DISPLAY DISABLE-DATE-SECTION
+                       ACCEPT DISABLE-DATE-SECTION
+                       IF (DEBUG-SWITCH = "Y") THEN
+                         DISPLAY DEBUG-DATE-SETTING-SECTION
+                         ACCEPT DEBUG-DATE-SETTING-SECTION 
+                         MOVE DEBUG-YEAR TO WS-CURRENT-YEAR
+                         MOVE DEBUG-MONTH TO WS-CURRENT-MONTH 
+                         MOVE DEBUG-DAY TO WS-CURRENT-DAY 
+                       ELSE
+                         MOVE "N" TO DEBUG-SWITCH
+                       END-IF
+                       DISPLAY DEBUG-EXIT-SECTION 
+                       ACCEPT  DEBUG-EXIT-SECTION
+                       MOVE "M" TO WS-MENU
                      ELSE 
                         MOVE "M" TO WS-MENU
                      END-IF
-                     MOVE "M" TO WS-MENU
             WHEN "T" DISPLAY STATUS-SCREEN
                      ACCEPT  STATUS-SCREEN   
                      MOVE "M" TO WS-MENU
