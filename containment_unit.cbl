@@ -473,12 +473,14 @@
        *> Handle main menu 
        PERFORM UNTIL WS-MENU = "Q"
           IF (WS-CURRENT-DATE = 20000101) THEN
-             MOVE "OPENED" TO CONTAINMENT-STATUS
-          ELSE   
-            MOVE FUNCTION CURRENT-DATE TO WS-CURRENT-DATE-DATA
-            MOVE FUNCTION MOD (WS-CURRENT-YEAR 2000) TO MOD-YEAR
-            IF MOD-YEAR > 0 THEN
-               MOVE 1999 TO WS-CURRENT-YEAR
+             MOVE "OPENED" TO CONTAINMENT-STATUS 
+          ELSE
+            IF (DEBUG-SWITCH = "N") THEN
+              MOVE FUNCTION CURRENT-DATE TO WS-CURRENT-DATE-DATA
+              MOVE FUNCTION MOD (WS-CURRENT-YEAR 2000) TO MOD-YEAR
+              IF MOD-YEAR > 0 THEN
+                 MOVE 1999 TO WS-CURRENT-YEAR
+              END-IF
             END-IF
           END-IF  
 
@@ -503,15 +505,15 @@
                          MOVE DEBUG-YEAR TO WS-CURRENT-YEAR
                          MOVE DEBUG-MONTH TO WS-CURRENT-MONTH 
                          MOVE DEBUG-DAY TO WS-CURRENT-DAY 
+                         MOVE "Y" TO DEBUG-SWITCH
                        ELSE
                          MOVE "N" TO DEBUG-SWITCH
                        END-IF
                        DISPLAY DEBUG-EXIT-SECTION 
                        ACCEPT  DEBUG-EXIT-SECTION
-                       MOVE "M" TO WS-MENU
-                     ELSE 
-                        MOVE "M" TO WS-MENU
                      END-IF
+                     MOVE "M" TO WS-MENU
+                     DISPLAY WS-MENU 
             WHEN "T" DISPLAY STATUS-SCREEN
                      ACCEPT  STATUS-SCREEN   
                      MOVE "M" TO WS-MENU
