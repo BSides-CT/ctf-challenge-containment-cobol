@@ -528,7 +528,7 @@ long int findFileSize()
 	return size;
 }
 
-int main()
+int decryptfile()
 {
 	// destroy contents of these files (from previous runs, if any)
 	out = fopen("result.txt", "wb+");

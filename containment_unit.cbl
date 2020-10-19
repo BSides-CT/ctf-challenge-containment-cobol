@@ -22,7 +22,10 @@
             05 USER-EXP        PIC X(6).
 
          WORKING-STORAGE SECTION.
-        
+       
+         01 HELLO PIC X(6) VALUE "Hello ".
+         01 WORLD PIC X(6) VALUE "World!".
+ 
          *> Used for defining Menu item selection
          01 WS-MENU               PIC X     VALUE "M".
 
@@ -412,6 +415,9 @@
        *> https://gnucobol.sourceforge.io/historical/open-cobol/Static-COBOL-to-C.html
        *> https://www.techiedelight.com/des-implementation-c/
        *> Read settings file
+
+       CALL "encryption" USING HELLO WORLD.
+
        OPEN INPUT USERS.
           PERFORM VARYING I FROM 1 BY 1 UNTIL WS-EOF='Y'
              READ USERS INTO WS-USER (I)
