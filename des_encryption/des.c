@@ -4,10 +4,6 @@
 #include <math.h>
 #include <time.h>
 
-/* https://www.techiedelight.com/des-implementation-c/ */
-
-/* https://gnucobol.sourceforge.io/historical/open-cobol/Static-COBOL-to-C.html */
-
 int IP[] = 
 {
 	  58, 50, 42, 34, 26, 18, 10, 2,
@@ -517,7 +513,7 @@ void create16Keys()
 
 long int findFileSize()
 {
-	FILE* inp = fopen("uses.txt", "rb");
+	FILE* inp = fopen("input.txt", "rb");
 	long int size;
 	if (fseek(inp, 0L, SEEK_END))
 		perror("fseek() failed");
@@ -528,7 +524,7 @@ long int findFileSize()
 	return size;
 }
 
-int decryptfile()
+int main()
 {
 	// destroy contents of these files (from previous runs, if any)
 	out = fopen("result.txt", "wb+");
