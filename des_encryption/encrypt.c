@@ -308,7 +308,7 @@ int convertCharToBit(long int n)
 
 void Encryption(long int plain[])
 {
-	out = fopen("users.txt", "ab+");
+	out = fopen("cipher.txt", "ab+");
 	for (int i = 0; i < 64; i++)
 		initialPermutation(i, plain[i]);
 
@@ -469,7 +469,7 @@ void encrypt(long int n)
 
 void create16Keys()
 {
-	FILE* pt = fopen("key.txt", "rb");
+	FILE* pt = fopen("../ctf_keys/key.txt", "rb");
 	unsigned int key[64];
 	int i = 0, ch;
 
@@ -499,13 +499,13 @@ long int findFileSize()
 int main()
 {
 	// destroy contents of these files (from previous runs, if any)
-	out = fopen("users.txt", "wb+");
+	out = fopen("cipher.txt", "wb+");
 	fclose(out);
 
 	create16Keys();
 
 	long int n = findFileSize() / 8;
-
+        printf("%ld", n);
 	convertCharToBit(n);
 
 	encrypt(n);
