@@ -4,10 +4,6 @@
 #include <math.h>
 #include <time.h>
 
-/* https://www.techiedelight.com/des-implementation-c/ */
-
-/* https://gnucobol.sourceforge.io/historical/open-cobol/Static-COBOL-to-C.html */
-
 int IP[] = 
 {
 	  58, 50, 42, 34, 26, 18, 10, 2,
@@ -278,37 +274,6 @@ void finalPermutation(int pos, int text)
 	ENCRYPTED[i] = text;
 }
 
-void convertToBinary(int n)
-{
-	int k, m;
-	for (int i = 7; i >= 0; i--) 
-	{
-		m = 1 << i;
-		k = n & m;
-		if (k == 0)
-			fprintf(out, "0");
-		else
-			fprintf(out, "1");
-	}
-}
-
-int convertCharToBit(long int n)
-{
-	FILE* inp = fopen("input.txt", "rb");
-	out = fopen("bits.txt", "wb+");
-	char ch;
-	int i = n * 8;
-	while (i) 
-	{
-		ch = fgetc(inp);
-		if (ch == -1)
-			break;
-		i--;
-		convertToBinary(ch);
-	}
-	fclose(out);
-	fclose(inp);
-}
 
 
 void Decryption(long int plain[])
@@ -353,7 +318,7 @@ void convertToBits(int ch[])
 
 int bittochar()
 {
-	out = fopen("result.txt", "ab+");
+	out = fopen("users.txt", "ab+");
 	for (int i = 0; i < 64; i = i + 8)
 		convertToBits(&ENCRYPTED[i]);
 	fclose(out);
@@ -447,10 +412,9 @@ void decrypt(long int n)
 	fclose(in);
 }
 
-
 void create16Keys()
 {
-	FILE* pt = fopen("key.txt", "rb");
+	FILE* pt = fopen("ctf_keys/key.txt", "rb");
 	unsigned int key[64];
 	int i = 0, ch;
 
@@ -466,7 +430,7 @@ void create16Keys()
 
 long int findFileSize()
 {
-	FILE* inp = fopen("uses.txt", "rb");
+	FILE* inp = fopen("input.txt", "rb");
 	long int size;
 	if (fseek(inp, 0L, SEEK_END))
 		perror("fseek() failed");
@@ -479,21 +443,12 @@ long int findFileSize()
 
 int main()
 {
-	// destroy contents of these files (from previous runs, if any)
-	out = fopen("result.txt", "wb+");
-	fclose(out);
-	out = fopen("decrypted.txt", "wb+");
-	fclose(out);
-	out = fopen("cipher.txt", "wb+");
-	fclose(out);
-
+        remove("users.txt");
 	create16Keys();
 
-	long int n = findFileSize() / 8;
+//	long int n = findFileSize() / 8;
 
-	convertCharToBit(n);
-
-	decrypt(n);
-
+	decrypt(18); 
+        remove("decrypted.txt");
 	return 0;
 }
