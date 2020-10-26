@@ -196,13 +196,15 @@
                        FOREGROUND-COLOR 6       LINE 7 COL 10.
          10  VALUE "(Q)UIT - exit the program"   
                        FOREGROUND-COLOR 6       LINE 9 COL 10.
+         10  VALUE "(R)ELOAD USERS - reload user file"
+                       FOREGROUND-COLOR 6       LINE 11 COL 10.
          05  DEBUG-SECTION.
          10  VALUE "(D)EBUG - developer debug menu"
-                       FOREGROUND-COLOR 4       LINE 11 COL 10.
+                       FOREGROUND-COLOR 4       LINE 13 COL 10.
          05  OPTION-SECTION.  
          10  VALUE "PLEASE SELECT AN OPTION:"                
-                                                LINE 13 COL 10.
-         10  RESPONSE-INPUT                     LINE 13 COL 34
+                                                LINE 15 COL 10.
+         10  RESPONSE-INPUT                     LINE 15 COL 34
                          PIC X         TO RESPONSE-IN-MENU.  
          
          *>  Settings screen for the application 
@@ -497,6 +499,9 @@
                      DISPLAY OPTION-SECTION
                      ACCEPT  OPTION-SECTION
                      MOVE RESPONSE-IN-MENU TO WS-MENU
+            WHEN "R" CALL "decrypt_users"
+                     DISPLAY "Re-loaded"
+                     MOVE "M" TO WS-MENU
             WHEN "S" DISPLAY SETTINGS-SCREEN
                      ACCEPT  SETTINGS-SCREEN
                      MOVE "M" TO WS-MENU
