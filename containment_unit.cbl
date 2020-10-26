@@ -304,7 +304,7 @@
                         PIC X          TO RESPONSE-IN-STATUS.
 
          *> Reload Users Screen
-         01 RELOAD-USERS.
+         01 RELOAD-USERS-SCREEN.
          05 RELOAD-TITLE-SECTION.
          10 VALUE "RELOAD USERS DATABASE SCREEN"
                         BLANK SCREEN            LINE 1 COL 10.
@@ -519,7 +519,8 @@
                      DISPLAY OPTION-SECTION
                      ACCEPT  OPTION-SECTION
                      MOVE RESPONSE-IN-MENU TO WS-MENU
-            WHEN "R" DISPLAY RELOAD-USERS
+            WHEN "R" DISPLAY RELOAD-USERS-SCREEN
+                     ACCEPT RELOAD-USERS-SCREEN
                      IF RELOAD-FILE = "Y" THEN
                         CALL "decrypt_users"
                      END-IF
