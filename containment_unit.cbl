@@ -75,7 +75,12 @@
                       VALUE "COVID2020ESCAPED".   
          01 CONTAINMENTRESPONSE.
             05 RESPONSE-IN-CONTAINMENT PIC X VALUE "X".
-
+         
+         *> Reload Users Menu
+         01 RELOADRESPONSE.
+            05 RESPONSE-IN-RELOAD  PIC X    VALUE "X".
+            05 RELOAD-FILE         PIC X    VALUE "N".            
+ 
          *> Debug Menu 
          01 DEBUGRESPONSE.
             05 RESPONSE-IN-DEBUG   PIC X    VALUE "X".
@@ -298,6 +303,21 @@
          05 RESPONSE-STATUS
                         PIC X          TO RESPONSE-IN-STATUS.
 
+         *> Reload Users Screen
+         01 RELOAD-USERS.
+         05 RELOAD-TITLE-SECTION.
+         10 VALUE "RELOAD USERS DATABASE SCREEN"
+                        BLANK SCREEN            LINE 1 COL 10.
+         05 RELOAD-FILE-SECTION.
+         10 VALUE "Reload the user database file (Y/N)?"
+                                                LINE 4 COL 10.
+         10 RESPONSE-RELOAD-FILE                LINE 4 COL 37
+                        PIC X          TO RELOAD-FILE.  
+         05 RELOAD-EXIT-SECTION.
+         10 VALUE "PRESS Q TO EXIT: "           LINE 8 COL 10.
+         10 RESPONSE-RELOAD
+                        PIC X          TO RESPONSE-IN-RELOAD.       
+
          *> Debug Menu
          01 DEBUG-SCREEN.
          05 DEBUG-TITLE-SECTION.
@@ -499,8 +519,10 @@
                      DISPLAY OPTION-SECTION
                      ACCEPT  OPTION-SECTION
                      MOVE RESPONSE-IN-MENU TO WS-MENU
-            WHEN "R" CALL "decrypt_users"
-                     DISPLAY "Re-loaded"
+            WHEN "R" DISPLAY RELOAD-USERS
+                     IF RELOAD-FILE = "Y" THEN
+                        CALL "decrypt_users"
+                     END-IF
                      MOVE "M" TO WS-MENU
             WHEN "S" DISPLAY SETTINGS-SCREEN
                      ACCEPT  SETTINGS-SCREEN
