@@ -7,7 +7,7 @@
        ENVIRONMENT DIVISION.
          INPUT-OUTPUT SECTION.  
             FILE-CONTROL.
-            SELECT USERS ASSIGN TO 'users.txt'
+            SELECT USERS ASSIGN TO 'decrypted_users.txt'
             ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.

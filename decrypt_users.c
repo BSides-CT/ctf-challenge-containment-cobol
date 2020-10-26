@@ -393,7 +393,7 @@ void key64to48(unsigned int key[])
 
 void decrypt(long int n)
 {
-	FILE* in = fopen("cipher.txt", "rb");
+	FILE* in = fopen("usrs/userdb.txt", "rb");
 	long int plain[n * 64];
 	int i = -1;
 	char ch;
@@ -430,14 +430,13 @@ void create16Keys()
 
 long int findFileSize()
 {
-	FILE* inp = fopen("input.txt", "rb");
-	long int size;
+	FILE* inp = fopen("usrs/userdb.txt", "rb");
+	int size;
 	if (fseek(inp, 0L, SEEK_END))
 		perror("fseek() failed");
 	else // size will contain no. of chars in input file.
 		size = ftell(inp);
 	fclose(inp);
-
 	return size;
 }
 
@@ -446,9 +445,9 @@ int main()
         remove("users.txt");
 	create16Keys();
 
-//	long int n = findFileSize() / 8;
+	int n = findFileSize() / 64;
 
-	decrypt(18); 
+	decrypt(n); 
         remove("decrypted.txt");
 	return 0;
 }
