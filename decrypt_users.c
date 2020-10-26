@@ -318,7 +318,7 @@ void convertToBits(int ch[])
 
 int bittochar()
 {
-	out = fopen("users.txt", "ab+");
+	out = fopen("decrypted_users.txt", "ab+");
 	for (int i = 0; i < 64; i = i + 8)
 		convertToBits(&ENCRYPTED[i]);
 	fclose(out);
@@ -442,7 +442,7 @@ long int findFileSize()
 
 int main()
 {
-        remove("users.txt");
+        remove("decrypted_users.txt");
 	create16Keys();
 
 	int n = findFileSize() / 64;
