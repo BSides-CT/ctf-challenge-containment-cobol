@@ -415,8 +415,7 @@
        *> https://gnucobol.sourceforge.io/historical/open-cobol/Static-COBOL-to-C.html
        *> https://www.techiedelight.com/des-implementation-c/
        *> Read settings file
-
-       CALL "encryption" USING HELLO WORLD.
+       CALL "decrypt_users".
 
        OPEN INPUT USERS.
           PERFORM VARYING I FROM 1 BY 1 UNTIL WS-EOF='Y'

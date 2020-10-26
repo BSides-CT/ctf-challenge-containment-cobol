@@ -440,7 +440,7 @@ long int findFileSize()
 	return size;
 }
 
-int main()
+int decrypt_users()
 {
         remove("decrypted_users.txt");
 	create16Keys();
