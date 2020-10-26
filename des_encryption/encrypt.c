@@ -308,7 +308,7 @@ int convertCharToBit(long int n)
 
 void Encryption(long int plain[])
 {
-	out = fopen("cipher.txt", "ab+");
+	out = fopen("../usrs/userdb.txt", "ab+");
 	for (int i = 0; i < 64; i++)
 		initialPermutation(i, plain[i]);
 
@@ -339,37 +339,6 @@ void Encryption(long int plain[])
 	fclose(out);
 }
 
-/*void Decryption(long int plain[])
-{
-	out = fopen("decrypted.txt", "ab+");
-	for (int i = 0; i < 64; i++)
-		initialPermutation(i, plain[i]);
-
-	for (int i = 0; i < 32; i++)
-		LEFT[0][i] = IPtext[i];
-
-	for (int i = 32; i < 64; i++)
-		RIGHT[0][i - 32] = IPtext[i];
-
-	for (int k = 1; k < 17; k++) {
-		cipher(k, 1);
-
-		for (int i = 0; i < 32; i++)
-			LEFT[k][i] = RIGHT[k - 1][i];
-	}
-	for (int i = 0; i < 64; i++) 
-	{
-		if (i < 32)
-			CIPHER[i] = RIGHT[16][i];
-		else
-			CIPHER[i] = LEFT[16][i - 32];
-		finalPermutation(i, CIPHER[i]);
-	}
-	for (int i = 0; i < 64; i++)
-		fprintf(out, "%d", ENCRYPTED[i]);
-
-	fclose(out);
-}*/
 
 void convertToBits(int ch[])
 {
@@ -499,13 +468,12 @@ long int findFileSize()
 int main()
 {
 	// destroy contents of these files (from previous runs, if any)
-	out = fopen("cipher.txt", "wb+");
+	out = fopen("../usrs/userdb.txt", "wb+");
 	fclose(out);
 
 	create16Keys();
 
 	long int n = findFileSize() / 8;
-        printf("%ld", n);
 	convertCharToBit(n);
 
 	encrypt(n);
