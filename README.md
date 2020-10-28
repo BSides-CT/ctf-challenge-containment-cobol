@@ -113,6 +113,7 @@ brew link --force berkeley-db4
 To compile the code run:
 
 ```
+cc -c decrypt_users.c 
 cobc -x -o containment_unit containment_unit.cbl
 ```
 
@@ -121,6 +122,8 @@ To run the CTF challenge execute:
 ```
 ./containment_unit
 ```
+
+Or use the `build.sh` file to compile and run in one shot.
 
 ## Programming Guide
 
@@ -136,20 +139,19 @@ The programming guide can be found here in PDF format.
 In the year 2120 a group of engineers have figued out how to manipulate time. The dystopian world they
 inhabit was all a result of the COVID-19 outbreak. The team decide in order to change their present
 they must manipulate the past. Knowing that changing time can have unintended consequnces, they 
-decide to hide a bio-engineered virus in the past. Once the time is right, some smart 
-hacker (like you!) will figure out how to open the vault.
+decide to send information on a bio-engineered anti-virus into the past via telnet. Once the time is right, some smart 
+hacker will figure out how to open the vault.
 
 But how can they disguise the virus containment unit and prevent unwanted intruders opening it
-too early? The team settle upon an idea. Disguise the containment unit as old software from 
+too early? The team settle upon an idea. Disguise the anti-viral in a containment unit running on software from 
 the 1980's. It was known that COBOL had a date problem and many an individual feared that on Y2K when 
 the clock ticked over, systems would crash and meltdown.
 
-The team set off for 1984 and quietly integrated themselves in the world of mainframe pogrammers.
+The team set up their computer to talk to 1984 and quietly integrated themselves in the world of mainframe pogrammers.
 Few at this time knew that the 6 digit date format would provide to be such a problem. Only
 on the earliest bulletin boards was the subject under discussion.
 
-Having coded the containment unit they placed COVID-20 in it. However they had a problem,
-what would happen when 1999 ticked over to 2000? Wouldn't the virus escape?
+Having sent the data to scientists in the past, who ended up placing the results in the containment unit they had to then hack their way and install a bug. A bug that would open the unit at the right time.
 
 One of the engineers had an idea. He would add a hidden debug screen and leave the date stuck before 
 December 31st 1999. Everyday date beyond 1999 would reset to that year.
@@ -158,7 +160,7 @@ Only when the debug screen was enabled, the date reset code disabled and the dat
 or greater would the containment unit open.
 
 Having coded in the hidden switch, they now had to hope, in 2020 somebody would stumble across
-the containment unit, somebody like you! Seeing it was written in the 1980's and following the other clues left 
+the containment unit! Seeing it was written in the 1980's and following the other clues left 
 across puzzles such as it being witten in COBOL and the references to 1999, perhaps some 
 skillful hacker would see that the dates had to be manipulated and thus set the vault to trigger a 
 Y2K meltdown.
