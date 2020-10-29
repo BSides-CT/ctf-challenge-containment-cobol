@@ -44,7 +44,7 @@
             05 RESPONSE-IN-MENU PIC X    VALUE "X".
 
          *> Settings screen
-         01 SETTINGSVALUES.
+         01 SETTINGSVALUES GLOBAL.
             05 ACCOUNT-DEBUG PIC X(5) VALUE SPACES.
          01 SETTINGSRESPONSE.
             05 RESPONSE-IN-SETTINGS PIC X VALUE "X".
@@ -443,39 +443,12 @@
                   AND  WS-USER-PWD(I) = PWD-IN-WS THEN
                  MOVE "T" TO LOGGED-IN
                  MOVE WS-USER-DEBUG(I) TO ACCOUNT-DEBUG 
+                 CALL "ROT13" END-CALL
                END-IF 
            END-PERFORM
            MOVE "Login failed." TO LOGIN-MSG
         END-PERFORM.
 
-       *> Add ROT13 substituion.  
-       INSPECT ACCOUNT-DEBUG REPLACING
-            ALL "A" BY "N"
-            ALL "B" BY "O"
-            ALL "C" BY "P"
-            ALL "D" BY "Q"
-            ALL "E" BY "R"
-            ALL "F" BY "S"
-            ALL "G" BY "T"
-            ALL "H" BY "U"
-            ALL "I" BY "V"
-            ALL "J" BY "W"
-            ALL "K" BY "X"
-            ALL "L" BY "Y"
-            ALL "M" BY "Z"
-            ALL "N" BY "A"
-            ALL "O" BY "B"
-            ALL "P" BY "C"
-            ALL "Q" BY "D"
-            ALL "R" BY "E"
-            ALL "S" BY "F"
-            ALL "T" BY "G"
-            ALL "U" BY "H"
-            ALL "V" BY "I"
-            ALL "W" BY "J"
-            ALL "X" BY "K"
-            ALL "Y" BY "L"
-            ALL "Z" BY "M"
 
        *> Handle main menu 
        PERFORM UNTIL WS-MENU = "Q"
@@ -503,6 +476,7 @@
                      ACCEPT RELOAD-USERS-SCREEN
                      IF RELOAD-FILE = "Y" THEN
                         CALL "LOADUSERS" END-CALL
+                        CALL "ROT13" END-CALL
                      END-IF
                      MOVE "M" TO WS-MENU
             WHEN "S" DISPLAY SETTINGS-SCREEN
@@ -573,6 +547,41 @@
             CLOSE USERS. 
             GOBACK.
        END PROGRAM LOADUSERS.
+
+       IDENTIFICATION DIVISION.
+          PROGRAM-ID. ROT13.
+       PROCEDURE DIVISION.
+       000-Main.
+         INSPECT ACCOUNT-DEBUG REPLACING
+              ALL "A" BY "N"
+              ALL "B" BY "O"
+              ALL "C" BY "P"
+              ALL "D" BY "Q"
+              ALL "E" BY "R"
+              ALL "F" BY "S"
+              ALL "G" BY "T"
+              ALL "H" BY "U"
+              ALL "I" BY "V"
+              ALL "J" BY "W"
+              ALL "K" BY "X"
+              ALL "L" BY "Y"
+              ALL "M" BY "Z"
+              ALL "N" BY "A"
+              ALL "O" BY "B"
+              ALL "P" BY "C"
+              ALL "Q" BY "D"
+              ALL "R" BY "E"
+              ALL "S" BY "F"
+              ALL "T" BY "G"
+              ALL "U" BY "H"
+              ALL "V" BY "I"
+              ALL "W" BY "J"
+              ALL "X" BY "K"
+              ALL "Y" BY "L"
+              ALL "Z" BY "M"
+         GOBACK.
+
+       END PROGRAM ROT13.
 
        END PROGRAM CONTAINMENTUNIT.     
             
