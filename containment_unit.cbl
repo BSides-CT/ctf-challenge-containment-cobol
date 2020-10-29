@@ -4,22 +4,11 @@
          PROGRAM-ID. CONTAINMENTUNIT.
          *> setup the procedure division (equiv. main() function)
 
-       ENVIRONMENT DIVISION.
-         INPUT-OUTPUT SECTION.  
-            FILE-CONTROL.
-            SELECT USERS ASSIGN TO 'decrypted_users.txt'
-            ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
          
          *> Used for handling the file that stores the
          *> CTF settings
-         FILE SECTION.
-         FD USERS.
-         01 USERS-FILE.
-            05 USER-ID         PIC XXXX.
-            05 USER-PWD        PIC X(8).
-            05 USER-EXP        PIC X(6).
 
          WORKING-STORAGE SECTION.
        
@@ -43,11 +32,11 @@
             05 PWD-IN-WS       PIC X(8)     VALUE SPACES.  
 
          *> User data read in from file
-         01 WS-USERS-TABLE.
-            05 WS-USER OCCURS 8 TIMES INDEXED BY I.
+         01 WS-USERS-TABLE GLOBAL.
+            05 WS-USER  OCCURS 8 TIMES INDEXED BY I.
               10 WS-USER-ID         PIC XXXX.
               10 WS-USER-PWD        PIC X(8).
-              10 WS-USER-DEBUG        PIC X(6).
+              10 WS-USER-DEBUG      PIC X(6).
             05 WS-EOF               PIC A(1).
 
          *> Menu item selection
@@ -437,16 +426,7 @@
        *> https://gnucobol.sourceforge.io/historical/open-cobol/Static-COBOL-to-C.html
        *> https://www.techiedelight.com/des-implementation-c/
        *> Read settings file
-       CALL "decrypt_users".
-
-       OPEN INPUT USERS.
-          PERFORM VARYING I FROM 1 BY 1 UNTIL WS-EOF='Y'
-             READ USERS INTO WS-USER (I)
-                AT END MOVE 'Y' TO WS-EOF
-             END-READ
-          END-PERFORM.
-       CLOSE USERS. 
-
+       CALL "LOADUSERS" END-CALL.    
        *> Render welcome/intro screen 
        PERFORM UNTIL RESPONSE-IN-LOGIN = "L"
           DISPLAY INTRO-SCREEN
@@ -513,7 +493,7 @@
 
           EVALUATE WS-MENU
             WHEN "M" DISPLAY MENU-SECTION
-                     IF ACCOUNT-DEBUG = "TRUE" THEN
+                     IF ACCOUNT-DEBUG = "ALLOW" THEN
                          DISPLAY DEBUG-SECTION
                      END-IF    
                      DISPLAY OPTION-SECTION
@@ -522,13 +502,13 @@
             WHEN "R" DISPLAY RELOAD-USERS-SCREEN
                      ACCEPT RELOAD-USERS-SCREEN
                      IF RELOAD-FILE = "Y" THEN
-                        CALL "decrypt_users"
+                        CALL "LOADUSERS" END-CALL
                      END-IF
                      MOVE "M" TO WS-MENU
             WHEN "S" DISPLAY SETTINGS-SCREEN
                      ACCEPT  SETTINGS-SCREEN
                      MOVE "M" TO WS-MENU
-            WHEN "D" IF (ACCOUNT-DEBUG = "TRUE") THEN
+            WHEN "D" IF (ACCOUNT-DEBUG = "ALLOW") THEN
                        DISPLAY DEBUG-TITLE-SECTION
                        DISPLAY DISABLE-DATE-SECTION
                        ACCEPT DISABLE-DATE-SECTION
@@ -562,6 +542,37 @@
             WHEN other MOVE "M" TO WS-MENU
           END-EVALUATE
        END-PERFORM. 
-
        *> End program
        STOP RUN.
+
+       IDENTIFICATION DIVISION.
+          PROGRAM-ID. LOADUSERS.
+          ENVIRONMENT DIVISION.
+            INPUT-OUTPUT SECTION.  
+               FILE-CONTROL.
+               SELECT USERS ASSIGN TO 'decrypted_users.txt'
+               ORGANIZATION IS LINE SEQUENTIAL.
+          DATA DIVISION.     
+            *> Used for handling the file that stores the
+            *> CTF settings
+            FILE SECTION.
+            FD USERS.
+            01 USERS-FILE.
+               05 USER-ID         PIC XXXX.
+               05 USER-PWD        PIC X(8).
+               05 USER-EXP        PIC X(6).
+          PROCEDURE DIVISION.
+          000-Main.
+            CALL "decrypt_users".
+            OPEN INPUT USERS.
+               PERFORM VARYING I FROM 1 BY 1 UNTIL WS-EOF='Y'
+                  READ USERS INTO WS-USER (I)
+                     AT END MOVE 'Y' TO WS-EOF
+                  END-READ
+               END-PERFORM.
+            CLOSE USERS. 
+            GOBACK.
+       END PROGRAM LOADUSERS.
+
+       END PROGRAM CONTAINMENTUNIT.     
+            
