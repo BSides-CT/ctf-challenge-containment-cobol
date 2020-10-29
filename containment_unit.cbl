@@ -300,7 +300,7 @@
          05 RELOAD-FILE-SECTION.
          10 VALUE "Reload the user database file (Y/N)?"
                                                 LINE 4 COL 10.
-         10 RESPONSE-RELOAD-FILE                LINE 4 COL 37
+         10 RESPONSE-RELOAD-FILE                LINE 4 COL 47
                         PIC X          TO RELOAD-FILE.  
          05 RELOAD-EXIT-SECTION.
          10 VALUE "PRESS Q TO EXIT: "           LINE 8 COL 10.
@@ -443,12 +443,12 @@
                   AND  WS-USER-PWD(I) = PWD-IN-WS THEN
                  MOVE "T" TO LOGGED-IN
                  MOVE WS-USER-DEBUG(I) TO ACCOUNT-DEBUG 
-                 CALL "ROT13" END-CALL
                END-IF 
            END-PERFORM
            MOVE "Login failed." TO LOGIN-MSG
         END-PERFORM.
 
+        CALL "ROT13" END-CALL.
 
        *> Handle main menu 
        PERFORM UNTIL WS-MENU = "Q"
@@ -472,8 +472,11 @@
                      DISPLAY OPTION-SECTION
                      ACCEPT  OPTION-SECTION
                      MOVE RESPONSE-IN-MENU TO WS-MENU
-            WHEN "R" DISPLAY RELOAD-USERS-SCREEN
-                     ACCEPT RELOAD-USERS-SCREEN
+            WHEN "R" DISPLAY RELOAD-TITLE-SECTION
+                     DISPLAY RELOAD-FILE-SECTION
+                     ACCEPT RELOAD-FILE-SECTION
+                     DISPLAY RELOAD-EXIT-SECTION
+                     ACCEPT  RELOAD-EXIT-SECTION
                      IF RELOAD-FILE = "Y" THEN
                         CALL "LOADUSERS" END-CALL
                         CALL "ROT13" END-CALL
