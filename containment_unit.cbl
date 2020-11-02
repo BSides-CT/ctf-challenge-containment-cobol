@@ -142,12 +142,12 @@
          05 VALUE "have some clues on where to start!  " LINE 24 COL 13.
          05 VALUE "Background Story                    " LINE 26 COL 13.
          05 VALUE "----------------                    " LINE 27 COL 13.
-         05 VALUE "Our intrepid time traveling coders  " LINE 29 COL 13.
+         05 VALUE "Our intrepid telnet traveling heros " LINE 29 COL 13.
          05 VALUE "traveled into the past to constuct  " LINE 30 COL 13.
          05 VALUE "a virus, that when unleashed will   " LINE 31 COL 13.
          05 VALUE "stop COVID-19. Your job is to break " LINE 32 COL 13.
-         05 VALUE "into the sytem and release COVID-20 " LINE 33 COL 13.
-         05 VALUE "The admin tool was lost long ago so " LINE 34 COL 13.
+         05 VALUE "into the system & release COVID-20. " LINE 33 COL 13.
+         05 VALUE "The admin user was lost long ago so " LINE 34 COL 13.
          05 VALUE "your only hope is to use your       " LINE 35 COL 13.
          05 VALUE "hacking skills. You will need to    " LINE 36 COL 13.
          05 VALUE "1. Log into the system              " LINE 37 COL 13.
@@ -205,7 +205,7 @@
          *>  Use this screen to view password
          *>  and other values.
          01 SETTINGS-SCREEN.
-         05 VALUE "SETTINGS SCREEN"
+         05 VALUE "SETTINGS SCREEN - FLAG_TWO_IMIN"
                         BLANK SCREEN            LINE 1 COL 10.
          05 VALUE "----------------"            LINE 2 COL 10.
          05 VALUE "Use this screen to view settings"

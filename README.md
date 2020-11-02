@@ -59,11 +59,11 @@ If you pass in the CTF flag, then the image will be built out and a container cr
 
 This simulates the production CTF deployment and includes the following:
 
-1. An test SSH public and private key
+1. Telnet running in the container
 
-2. SSH running on the container
+2. FTP running in the container
 
-3. The environment set up so you SSH in and the application is running 
+3. The environment set up so you can Telnet in and connect to the application
 
 
 ### Manual Installation 

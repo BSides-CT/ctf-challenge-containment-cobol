@@ -12,8 +12,9 @@ RUN apt-get install xinetd telnetd -y
 
 WORKDIR ~/
 
+COPY decrypt_users.c decrypt_users.c
 COPY containment_unit.cbl containment_unit.cbl
-COPY users.txt users.txt
-COPY install.sh install.sh
-RUN  chmod u+x install.sh
-RUN  ./install.sh
+COPY usrs/ usrs/
+COPY docker_install.sh docker_install.sh
+RUN  chmod u+x docker_install.sh
+RUN  ./docker_install.sh
