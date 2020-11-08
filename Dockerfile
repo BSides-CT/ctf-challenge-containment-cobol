@@ -10,6 +10,9 @@ RUN apt-get install libdb-dev libncurses5-dev libgmp-dev autoconf -y
 RUN apt-get install open-cobol -y
 RUN apt-get install xinetd telnetd -y
 RUN apt-get install vsftpd -y
+EXPOSE 23
+EXPOSE 21
+EXPOSE 22
 
 WORKDIR ~/
 
