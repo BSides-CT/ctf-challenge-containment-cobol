@@ -1,0 +1,10 @@
+service ftp 
+{ 
+  socket_type        = stream 
+  wait               = no 
+  user               = root
+  server             = /usr/sbin/in.ftpd
+  server_args        = -l 
+  instances          = 4 
+  nice               = 10 
+}
