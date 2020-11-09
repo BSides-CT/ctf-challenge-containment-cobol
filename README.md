@@ -44,10 +44,8 @@ docker build --tag containmentunit:1.0 . --build-arg ENV=DEV
 If you create a DEV environment, to then connect to the container via the commandline run:
 
 ```
-docker run --privileged -it containmentunit:1.0
+docker run -it -p 23:23 containmentunit:1.0
 ```
-
-The `--privileged` will allow you to change the date in the container for testing. 
 
 A copy of the code is located in the container along with a compiled version. However you can git clone your own fork into here too
 and work in it, in the container. 
@@ -59,7 +57,7 @@ If you pass in the CTF flag, then the image will be built out and a container cr
 
 This simulates the production CTF deployment and includes the following:
 
-1. Telnet running in the container
+1. Telnet running in the container: `telnet localhost 23`
 
 2. FTP running in the container
 
