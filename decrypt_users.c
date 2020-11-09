@@ -278,7 +278,7 @@ void finalPermutation(int pos, int text)
 
 void Decryption(long int plain[])
 {
-	out = fopen("decrypted.txt", "ab+");
+	out = fopen("/opt/cu/decrypted.txt", "ab+");
 	for (int i = 0; i < 64; i++)
 		initialPermutation(i, plain[i]);
 
@@ -318,7 +318,7 @@ void convertToBits(int ch[])
 
 int bittochar()
 {
-	out = fopen("decrypted_users.txt", "ab+");
+	out = fopen("/opt/cu/decrypted_users.txt", "ab+");
 	for (int i = 0; i < 64; i = i + 8)
 		convertToBits(&ENCRYPTED[i]);
 	fclose(out);
@@ -393,7 +393,7 @@ void key64to48(unsigned int key[])
 
 void decrypt(long int n)
 {
-	FILE* in = fopen("./usrs/userdb.txt", "rb");
+	FILE* in = fopen("/opt/cu/usrs/userdb.txt", "rb");
 	long int plain[n * 64];
 	int i = -1;
 	char ch;
@@ -414,7 +414,7 @@ void decrypt(long int n)
 
 void create16Keys()
 {
-	FILE* pt = fopen("./ctf_keys/key.txt", "rb");
+	FILE* pt = fopen("/opt/cu/ctf_keys/key.txt", "rb");
 	unsigned int key[64];
 	int i = 0, ch;
 
@@ -430,7 +430,7 @@ void create16Keys()
 
 long int findFileSize()
 {
-	FILE* inp = fopen("./usrs/userdb.txt", "rb");
+	FILE* inp = fopen("/opt/cu/usrs/userdb.txt", "rb");
 	int size;
 	if (fseek(inp, 0L, SEEK_END))
 		perror("fseek() failed");
@@ -442,12 +442,11 @@ long int findFileSize()
 
 int decrypt_users()
 {
-    remove("decrypted_users.txt");
-	create16Keys();
+        remove("/opt/cu/decrypted_users.txt");
+        create16Keys();
 
 	int n = findFileSize() / 64;
-
 	decrypt(n); 
-    remove("decrypted.txt");
+        remove("/opt/cu/decrypted.txt");
 	return 0;
 }
