@@ -8,15 +8,16 @@ RUN apt-get update -y --fix-missing
 RUN apt-get install wget gcc make -y
 RUN apt-get install libdb-dev libncurses5-dev libgmp-dev autoconf -y
 RUN apt-get install open-cobol -y
-RUN apt-get install xinetd ftpd telnetd -y
+RUN apt-get install xinetd vsftpd telnetd -y
 EXPOSE 23
 EXPOSE 21
 EXPOSE 20
-
+EXPOSE 10090-10100
 WORKDIR cu/
 
 COPY telnet /etc/xinetd.d/telnet
 COPY ftp /etc/xinetd.d/ftp
+COPY vsftpd /etc/vsftpd.conf
 COPY shells /etc/shells
 COPY decrypt_users.c decrypt_users.c
 COPY containment_unit.cbl containment_unit.cbl
@@ -27,7 +28,8 @@ COPY decrypted_users.txt decrypted_users.txt
 COPY docker_install.sh docker_install.sh
 RUN  useradd -ms /opt/cu/containment_unit bsidesct
 RUN  echo "bsidesct:bsidesct" | chpasswd 
-
+RUN  mkdir /var/run/vsftpd
+RUN  mkdir /var/run/vsftpd/empty
 RUN  chmod u+x docker_install.sh
 RUN  chmod u+x docker_entrypoint.sh
 RUN  chmod -R u+x usrs

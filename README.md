@@ -44,7 +44,7 @@ docker build --tag containmentunit:1.0 . --build-arg ENV=DEV
 If you create a DEV environment, to then connect to the container via the commandline run:
 
 ```
-docker run -it -p 23:23 containmentunit:1.0
+docker run -it -p 23:23 -p 21:21 -p 20:20 -p 10090-10100:10090-10100 containmentunit:1.0
 ```
 
 A copy of the code is located in the container along with a compiled version. However you can git clone your own fork into here too
