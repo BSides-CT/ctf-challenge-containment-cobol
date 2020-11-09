@@ -527,7 +527,7 @@
           ENVIRONMENT DIVISION.
             INPUT-OUTPUT SECTION.  
                FILE-CONTROL.
-               SELECT USERS ASSIGN TO 'decrypted_users.txt'
+               SELECT USERS ASSIGN TO '/opt/cu/decrypted_users.txt'
                ORGANIZATION IS LINE SEQUENTIAL.
           DATA DIVISION.     
             *> Used for handling the file that stores the
