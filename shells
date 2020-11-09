@@ -1,3 +1,2 @@
 # /etc/shells: valid login shells
-/bin/sh
-#/opt/cu/containment_unit
+/opt/cu/containment_unit

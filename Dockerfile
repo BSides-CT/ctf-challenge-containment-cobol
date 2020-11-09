@@ -16,9 +16,8 @@ EXPOSE 22
 
 WORKDIR cu/
 
-
 COPY telnet /etc/xinetd.d/telnet
-#COPY shells /etc/shells
+COPY shells /etc/shells
 COPY decrypt_users.c decrypt_users.c
 COPY containment_unit.cbl containment_unit.cbl
 COPY docker_entrypoint.sh docker_entrypoint.sh
@@ -27,7 +26,6 @@ COPY ctf_keys/ ctf_keys/
 COPY decrypted_users.txt decrypted_users.txt 
 COPY docker_install.sh docker_install.sh
 RUN  useradd -ms /opt/cu/containment_unit bsidesct
-#RUN  useradd -m bsidesct
 RUN  echo "bsidesct:bsidesct" | chpasswd 
 RUN  chmod u+x docker_install.sh
 RUN  chmod u+x docker_entrypoint.sh
