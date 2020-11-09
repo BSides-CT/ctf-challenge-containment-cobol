@@ -179,7 +179,7 @@ user.txt file, but only one works!
 ### Change account expiration
 
 Next they need to set the account expiration to 
-12/31/99 by figuring out the substitution cipher.
+12/31/99 by figuring out the substitution cipher (8NYYBJ)
 The final chars of the correct account contain the encrypted expiration date.
 
 ### Set the clock
