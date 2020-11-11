@@ -4,7 +4,10 @@ README
 *November 14th 1984*
 
 Adding notes for future programmers to read.
-Use my login too if you bsidesct peeps can guess it. 
+
+The team used DES to encrypt the users, that should keep the
+file secure. 
+
 p.s this might help in the future too, not sure what it is for?
 
 FLAG_One_FTP_Found
