@@ -25,7 +25,8 @@ The second is to manually install it on your systems. GNUCobol is available on M
 If you wish to run the challenge use the Dockerfile in the root of the repository.
 
 This will create a container from the image with Ubuntu running, the demo private key installed, the environment configured as
-a shell and SSH enabled. 
+a shell and telnet + ftp enabled. A helper script is provided called build.sh. Replace CTF with DEV to keep a copy of the C and COBOL
+source files in the container (see the next section for mroe info). 
 
 
 ### Docker (for development and the challenge)
@@ -38,10 +39,12 @@ You can pass in an environment flag `DEV` or `CTF` to build the relevant image.
 docker build --tag containmentunit:1.0 . --build-arg ENV=DEV
 ```
 
+The only difference between the two is that the C and COBOL source code are deleted with the CTF flag in place.
+
 
 #### DEV environment 
 
-If you create a DEV environment, to then connect to the container via the commandline run:
+If you create a DEV environment, to run the container via the commandline execute:
 
 ```
 docker run -it -p 23:23 -p 21:21 -p 20:20 -p 10090-10100:10090-10100 containmentunit:1.0
@@ -50,6 +53,13 @@ docker run -it -p 23:23 -p 21:21 -p 20:20 -p 10090-10100:10090-10100 containment
 A copy of the code is located in the container along with a compiled version. However you can git clone your own fork into here too
 and work in it, in the container. 
 
+To drop into bash to work on the code, rather than connect to the program itself, use:
+
+```
+docker exec -it <container name> bash
+```
+
+By default no text editor and dev tools are installed, so you will need to add these. 
 
 #### CTF environment 
 
@@ -59,9 +69,9 @@ This simulates the production CTF deployment and includes the following:
 
 1. Telnet running in the container: `telnet localhost 23`
 
-2. FTP running in the container
+2. FTP running in the container `ftp localhost 21`
 
-3. The environment set up so you can Telnet in and connect to the application
+3. The environment set up so you can Telnet in and connect to the application.
 
 
 ### Manual Installation 
@@ -108,6 +118,22 @@ brew link --force berkeley-db4
 
 ### Compile and Run (manual or in container)
 
+By default teh application has been hard coded to use the path:
+
+/opt/cu/
+
+The ctf_keys and usrs folder and content will therefore need to be available 
+as subdirectories under this. 
+
+You can change this in the source code if you wish. However, this is path used
+though in the container, and the location that the user FTPs into, so
+keep this in mind if you wish to change the code. You may wish to change the source
+and pass the paths in as arguments as well.
+
+Also keep in mind file permissions for /opt/cu on your system, or
+you may see errors related to the COBOL program not being able to 
+read/write to temporary files it creates during encryption. 
+
 To compile the code run:
 
 ```
@@ -115,21 +141,24 @@ cc -c decrypt_users.c
 cobc -x -o containment_unit containment_unit.cbl
 ```
 
-To run the CTF challenge execute:
+Add ghe binary to /opt/cu and to run the CTF challenge execute:
 
 ```
 ./containment_unit
 ```
 
-Or use the `build.sh` file to compile and run in one shot.
 
 ## Programming Guide
 
-If you ae interested in writing code in COBOL using GNUCobol then check out the following site:
+If you are interested in writing code in COBOL using GNUCobol then check out the following site:
 
 https://gnucobol.sourceforge.io/
 
 The programming guide can be found here in PDF format.
+
+The encryption/decyption algo was inspired by this site:
+
+https://www.techiedelight.com/des-implementation-c/
 
 
 ## Backstory
@@ -163,35 +192,55 @@ across puzzles such as it being witten in COBOL and the references to 1999, perh
 skillful hacker would see that the dates had to be manipulated and thus set the vault to trigger a 
 Y2K meltdown.
 
+## CTF Text for the platform
+
+Read this closely.
+
+A bsidesct user like you needs to break into the 
+containment unit and release the COVID2020 virus
+to kill off COVID19. You'll be provided witth an IP address
+from there it is up to you.
+
+Remember to read the back story too. 
+
 
 ## How the challenge works
 
 The player must find out how to unlock the containment unit and release COVID-2020.
 COVID-2020 is a bioengineered virus designed to kill of COVID-19. Its engineers traveled
-back to 1984 and wrote the COBOL containment unit. The player once completing the sub tasks
+back to 1984 through telnet and wrote the COBOL containment unit. The player once completing the sub tasks
 unlocks the unit, frees the virus and gets the CTF flag.
 
-### Login
+### Discover FTP and Telnet
 
-The first step is the figure out how to login. There are multiple users in the 
-user.txt file, but only one works!
+The first step is to discover that FTP and Telnet are running on the IP address provided.
+The user may find they can FTP in as anonymous:anonymous but discover the directory is empty.
+
+The clue to what the user is, is in the CTF Text for the platform. The user is: bsidesct
+
+Once they have guessed the FTP user, they can connect and downlaod the info text file 
+(which contains the first flag) and the usersdb.txt
+
+If the players connect to Telnet, they will see the containment unit login screen.
+Unless they guess the password, they will need to figure out what to do with the 
+usersdb.txt file. A clue is provided in the info.txt that the file may be encrypted with DES.
+
+### Crack the file
+
+Next the players have to crack th DES file. They can use the example program we will share in another challenge as a guide.
+The program uses a weak key of alternating 1's and 0's.
+
+### Login
+Next when they have a login they can gain access to the system. Another flag is hidden in one of the menus.
+
+The user file has a setting that switches on/off debug mode. This uses ROT13. A clue s available in the 
+application. If the team tries reloading the user file having not changed it, they will see the debug setting status
+rotate from clear text to encrypted. If they spot this, they may be able to discern that ROT13 is in use.
+Otherwise they can experiment with the string in the file until they crack it (NYYBJ is the value they need).
 
 ### Change account expiration
+The debug menu is now available fo them to set the date/clock.
 
-Next they need to set the account expiration to 
-12/31/99 by figuring out the substitution cipher (8NYYBJ)
-The final chars of the correct account contain the encrypted expiration date.
-
-### Set the clock
-
-Finally they need to set the date to 12/31/99 on the OS.
-This then locks in the Y2K date. Once the account expiration 
-and the system date are aligned and have set the Y2K lock in date,
-the contianment unit date is set to Y2K and the vault opens 
-revealing the key.
-
-To set the clock/date in EC2 use the following guide:
-
-https://www.msystechnologies.com/blog/how-to-change-the-date-and-time-on-amazons-ec2-instance/
-
+Here they need to set the date to 20000101. This opens the containment unit.
+Once open the final key is available.
 
