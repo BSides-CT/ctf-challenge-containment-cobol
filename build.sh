@@ -1,10 +1,3 @@
-if [[ ! -d "/opt/cu" ]]
-then
-  mkdir /opt/cu
-fi
-
-cp -r ctf_keys /opt/cu/
-cp -r usrs /opt/cu/
-cp decrypted_users.txt /opt/cu/
-cobc -x containment_unit.cbl decrypt_users.c
-mv containment_unit /opt/cu/
+#!/bin/bash
+docker build --tag containmentunit:1.0 . --build-arg ENV=CTF
+docker run -it -p 23:23 -p 21:21 -p 20:20 -p 10090-10100:10090-10100 containmentunit:1.0
