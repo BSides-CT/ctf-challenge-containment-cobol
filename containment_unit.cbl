@@ -142,7 +142,7 @@
          05 VALUE "have some clues on where to start!  " LINE 24 COL 13.
          05 VALUE "Background Story                    " LINE 26 COL 13.
          05 VALUE "----------------                    " LINE 27 COL 13.
-         05 VALUE "Our intrepid telnet traveling heros " LINE 29 COL 13.
+         05 VALUE "Our intrepid telnet traveling heroes" LINE 29 COL 13.
          05 VALUE "traveled into the past to constuct  " LINE 30 COL 13.
          05 VALUE "a virus, that when unleashed will   " LINE 31 COL 13.
          05 VALUE "stop COVID-19. Your job is to break " LINE 32 COL 13.
@@ -155,7 +155,9 @@
          05 VALUE "3. Reset the systems clock to a     " LINE 39 COL 13.
          05 VALUE "   mysterious date in the past      " LINE 40 COL 13.
          05 VALUE "Once complete you will see the key  " LINE 41 COL 13.
-         05 VALUE "Good Luck!                          " LINE 42 COL 13.
+         05 VALUE "There may also be other keys to     " LINE 42 COL 13.
+         05 VALUE "find along the way.                 " LINE 43 COL 13.
+         05 VALUE "Good Luck!                          " LINE 44 COL 13.
       
          *> Login Screen
          01  LOGIN-SCREEN.
@@ -205,7 +207,7 @@
          *>  Use this screen to view password
          *>  and other values.
          01 SETTINGS-SCREEN.
-         05 VALUE "SETTINGS SCREEN - FLAG_TWO_IMIN"
+         05 VALUE "SETTINGS SCREEN"
                         BLANK SCREEN            LINE 1 COL 10.
          05 VALUE "----------------"            LINE 2 COL 10.
          05 VALUE "Use this screen to view settings"
@@ -239,7 +241,9 @@
          05 VALUE "Set TCID(5) and PFU: "       
                        FOREGROUND-COLOR 6       LINE 20 COL 10.
          05 TCIDPFU-OUT                      
-            PIC S9(1)V9(2)  FROM TCID50RELPFU   LINE 20 COL 32.       
+            PIC S9(1)V9(2)  FROM TCID50RELPFU   LINE 20 COL 32. 
+         05 VALUE "BACK UP KEY: FLAG_TWO_IMIN"  
+                       FOREGROUND-COLOR 2       LINE 22 COL 10.     
          05 VALUE "PLEASE SELECT Q TO EXIT:"    LINE 25 COL 10.
          05 RESPONSE-INPUT
                         PIC X          TO RESPONSE-IN-SETTINGS.
@@ -250,7 +254,7 @@
                         BLANK SCREEN            LINE 1 COL 10.
          05 VALUE "DATE: "                      LINE 1 COL 35.
          05 DATE-OUTPUT
-                         FROM WS-CURRENT-DATE
+            PIC 9(4)9(2)9(2) FROM WS-CURRENT-DATE
                          FOREGROUND-COLOR 2     LINE 1 COL 41.
          05 VALUE "--------------"              LINE 2 COL 10.
          05 VALUE "Containment State: "         
@@ -327,7 +331,7 @@
          10 RESPONSE-DEBUG-YEAR                 LINE 8 COL 20
                         PIC 9(4)       TO DEBUG-YEAR.
          05 DEBUG-EXIT-SECTION.
-         10 VALUE "PRESS Q TO EXIT: "           LINE 25 COL 10.
+         10 VALUE "PRESS Q TO EXIT: "           LINE 15 COL 10.
          10 RESPONSE-DEBUG
                         PIC X          TO RESPONSE-IN-DEBUG.
 
