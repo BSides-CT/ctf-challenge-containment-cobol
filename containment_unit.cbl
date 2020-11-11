@@ -100,7 +100,7 @@
                          BLANK SCREEN LINE 1 COL 10. 
          05 VALUE "* COVID-2020 Containment Unit   *"
                          LINE 2 COL 10.
-         05 VALUE "* Developed in 1986             *"
+         05 VALUE "* Developed in 1984             *"
                          LINE 3 COL 10.
          05 VALUE "* By the retro*causal engineers *"
                          LINE 4 COL 10.
