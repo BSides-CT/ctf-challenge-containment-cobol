@@ -161,7 +161,7 @@ The encryption/decyption algo was inspired by this site:
 https://www.techiedelight.com/des-implementation-c/
 
 
-## Backstory
+## The Challenge concept 
 
 In the year 2120 a group of engineers have figued out how to manipulate time. The dystopian world they
 inhabit was all a result of the COVID-19 outbreak. The team decide in order to change their present
@@ -192,17 +192,46 @@ across puzzles such as it being witten in COBOL and the references to 1999, perh
 skillful hacker would see that the dates had to be manipulated and thus set the vault to trigger a 
 Y2K meltdown.
 
-## CTF Text for the platform
+A PDF of chatacters is provided in this repository too.
+
+
+## CTF Challenge Text for the platform
 
 Read this closely.
 
-A bsidesct user like you needs to break into the 
-containment unit and release the COVID2020 virus
-to kill off COVID19. You'll be provided witth an IP address
-from there it is up to you.
+A "bsidesct" user like you needs to break into the containment unit and release the COVID2020 virus to kill off COVID19. You'll be provided with an IP address from there it is up to you.
 
-Remember to read the back story too. 
+The engineers may have left some hint in their blog. Remember to read the back story too.
 
+## CTF Text for Discord (The Backstory) 
+
+Background Story                    
+----------------                    
+Our intrepid telnet traveling heroes
+traveled into the past to construct 
+a virus, that when unleashed will   
+stop COVID-19. Your job is to break 
+into the system & release COVID-20. 
+The admin user was lost long ago so 
+your only hope is to use your       
+hacking skills. You will need to    
+1. Log into the system              
+2. Update an important account value
+3. Reset the systems clock to a     
+   mysterious date in the past      
+Once complete you will see the key  
+There may also be other keys to     
+find along the way.                 
+Good Luck!                          
+
+
+## Other hints
+
+Other hints have been includede in other CTF challenges including:
+
+1. The fact a weak DES key that is 64 bits and alternating 10's is used
+2. The link to the encrypt/decrypt code, plus a copy of the modifiued code for encryption
+3. The fact that port scanning can help.
 
 ## How the challenge works
 
