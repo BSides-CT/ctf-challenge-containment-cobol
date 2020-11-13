@@ -206,7 +206,7 @@ The engineers may have left some hint in their blog. Remember to read the back s
 ## CTF Text for Discord (The Backstory) 
 
 Background Story                    
-----------------                    
+
 Our intrepid telnet traveling heroes
 traveled into the past to construct 
 a virus, that when unleashed will   
